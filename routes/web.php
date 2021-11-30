@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\EntradaController;
 use App\Http\Controllers\UserContorller;
+use Illuminate\Support\Facades\Auth;
 
 /*
 |--------------------------------------------------------------------------
@@ -190,6 +191,7 @@ Route::get('/mostrararticuloproductosf/{id}','ArticuloController@KardexArticuloP
 Route::post('/mostrarkardexarticuloporfechasf','ArticuloController@KardexArticuloFechasf');
 Route::get('/mostrarinventario','ArticuloController@ListaInventario')->middleware('can:inventario')->name('inventario');
 Route::get('/mostrarinventariotodo','ArticuloController@ListaInventarioTodo')->name('inventariotodo');
+Route::get('/mostrarinventariotododatatable','ArticuloController@ListaInventarioTodoDatatable')->name('inventariotododatatable');
 Route::get('/mostrarinventariotodosaldo','ArticuloController@ListaInventarioTodoSaldo');
 Route::get('/mostrarinventariotodosf','ArticuloController@ListaInventarioTodosf');
 Route::get('/mostrarinventariotodosaldosf','ArticuloController@ListaInventarioTodoSaldosf');

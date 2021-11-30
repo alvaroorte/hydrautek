@@ -428,6 +428,9 @@ class SalidaController extends Controller
             if ($salida->sccredito == 2) {
                 Movimiento_Banco::where('num_documento',$salida->codigo_venta)->first()->delete();
             }
+            else {
+                Credito::where('codigo',$salida->codigo_venta)->first()->delete();
+            }
         }
         foreach ($salidas as $salida) {
             $salida->estado = false;

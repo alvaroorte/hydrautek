@@ -282,21 +282,21 @@
                 text: '<button class="btn btn-success btn-sm"><i  class="far fa-file-excel"></i> </button>',
                 title: 'Lista de Articulos',
                 titleAttr: 'Exportar a excel',
-                exportOptions: { columns: [0, 1,2,3,4,5,6,7] }
+                exportOptions: { columns: [0, 1,2,3,4,5] }
             },
             {
                 extend: 'pdfHtml5',
                 text: '<button class="btn btn-danger btn-sm"><i  class="far fa-file-pdf"></i> </button>',
                 title: 'Lista de Articulos',
                 titleAttr: 'Exportar a PDF',
-                exportOptions: { columns: [0, 1,2,3,4,5,6,7] }
+                exportOptions: { columns: [0, 1,2,3,4,5] }
             },
             {
                 extend: 'print',
                 text: '<button class="btn btn-info btn-sm"><i  class="fas fa-print"></i> </button>',
                 title: 'Lista de Articulos',
                 titleAttr: 'Imprimir',
-                exportOptions: { columns: [0, 1,2,3,4,5,6,7] },
+                exportOptions: { columns: [0, 1,2,3,4,5] },
                 customize: function (win){
                     $(win.document.body).addClass('white-bg');
                     $(win.document.body).css('font-size', '15pt');

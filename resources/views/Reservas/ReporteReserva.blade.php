@@ -64,7 +64,7 @@
                 <td style="text-align: left"> Credito </td>
             </tr>
             <tr>
-                <th>Fecha de impresión</th>
+                <th>Fecha</th>
                 <td style="text-align: left"> {{$reserva->fecha}} </td>
             </tr>
             <tr>

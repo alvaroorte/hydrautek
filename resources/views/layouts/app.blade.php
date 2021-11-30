@@ -87,7 +87,7 @@
                                         <li><a href="{{url('mostrarinventario')}}">Inventario por Grupos</a></li>     
                                         @endcan
                                         <li><a href="{{url('mostrarinventariotodo')}}">Inventario Completo</a></li>
-                                        <li><a href="{{url('mostrarinventariotodosaldo')}}">Inventario Con Saldos</a></li>
+                                        <!--<li><a href="{{url('mostrarinventariotodosaldo')}}">Inventario Con Saldos</a></li>-->
                                         <li><a href="{{url('mostrararticulosmenoresa')}}">Inventario Menores A:</a></li>
                                         <li><a href="{{url('mostrarbienes')}}">Agregar Grupo O Item</a></li>
                                         @can('reportescf')

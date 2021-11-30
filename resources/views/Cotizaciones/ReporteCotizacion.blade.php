@@ -60,7 +60,7 @@
                 
             </tr>
             <tr>
-                <th>Fecha de impresión</th>
+                <th>Fecha</th>
                 <td style="text-align: left"> {{date('d-m-Y')}} </td>
             </tr>
             <tr>
@@ -156,7 +156,16 @@
                 </tbody>
             </table>
         @endif
-        
+        <br><br>
+        <table class="table" style="border: hidden">
+            <tbody style="border: hidden">
+                <tr style="border: hidden">
+                    <td style="text-align: center; border: hidden" width=50%><br><br><br>---------------------<br> Recibi conforme</td>
+                    <td style="text-align: center; border: hidden" width=50%><br><br><br>----------------------- <br> Entregue conforme</td>
+                    
+                </tr>
+            </tbody>
+          </table>
         
     </main>
     <footer>

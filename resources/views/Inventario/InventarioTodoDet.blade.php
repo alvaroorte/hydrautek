@@ -53,7 +53,7 @@
                         <table id="inventariodetallado" class="table table-bordered table-hover table-striped table-sm">
                             <thead style="background:#3c46d3;color:#ffffff;text-align:center">
                                 <tr>
-                                    <th width="5%">Nª</th>
+                                    <th width="5%">N°</th>
                                     <th width="10%">CODIGO</th>
                                     <th>ARTICULO</th>
                                     <th width="10%">MARCA</th>                                    
@@ -66,26 +66,8 @@
                                     <th width="8%">P. por MAYOR </th>
                                 </tr>
                             </thead>
-                            <tbody>
-                                <?php $i = 1; ?>
-                                @foreach($articulos as $articulo)
-                                <tr class="gradeC">
-                                    <td style="text-align: center;"><?php echo $i++; ?></td>
-                                    <td style="text-align: center;">{{$articulo->codigo_empresa}}</td>
-                                    <td style="text-align: center;"><b><a href="{{'mostrararticuloproducto/'.$articulo->id}}" title="Ver Kardex del Producto" ><span style="color:blue" >{{$articulo->nombre}}</span></a></b></td>
-                                    <td style="text-align: center;">{{$articulo->marca}}</td>
-                                    <td style="text-align: center;">{{$articulo->cantidad}}</td>
-                                    <td style="text-align: center;">{{$articulo->reservado}}</td>
-                                    <td style="text-align: center;">{{$articulo->ubicacion}}</td>
-                                    <td style="text-align: right;">{{number_format($articulo->costo,2)}}</td>
-                                    <td style="text-align: right;">{{number_format($articulo->saldo_articulo,2)}}</td>
-                                    <td style="text-align: right;">{{number_format($articulo->p_venta,2)}}</td>
-                                    <td style="text-align: right;">{{number_format($articulo->p_ventapm,2)}}</td>
-                                </tr>
-                                @endforeach
-                            </tbody>
+                            
                         </table>
-                        
                     </div>
                 </div>
             </div>
@@ -135,7 +117,20 @@
 <script>
     $(document).ready( function () {
         $('#inventariodetallado').DataTable({
-            
+            "ajax": "{{route('inventariotododatatable')}}",
+            "columns": [
+                {data: 'id'},
+                {data: 'codigo_empresa'},
+                {data: 'nombre'},
+                {data: 'marca'},
+                {data: 'cantidad'},
+                {data: 'reservado'},
+                {data: 'ubicacion'},
+                {data: 'costo'},
+                {data: 'saldo_articulo'},
+                {data: 'p_venta'},
+                {data: 'p_ventapm'},
+            ],
       dom: '<"html5buttons"B>lfgtip',
         buttons: [
             {
@@ -148,6 +143,7 @@
                 extend: 'pdfHtml5',
                 text: '<button class="btn btn-danger btn-sm"><i  class="far fa-file-pdf"></i> </button>',
                 title: 'Lista de Articulos',
+                orientation: 'landscape',
                 titleAttr: 'Exportar a PDF',
                 className: 'btn btn-danger'
             },

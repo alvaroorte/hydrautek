@@ -317,13 +317,17 @@ class ArticuloController extends Controller
     public function ListaInventarioTodo()
     {
 
-        $articulos=articulo::join("biens","articulos.id_bien","=","biens.id")
-        ->select("biens.nombre as nombre_bien","biens.id","articulos.*")
-        ->orderBy('id_bien')
-        ->get();
-        $cantidad = $articulos->count();
+        $articulos = articulo::where('id','!=',0)->get();
+        $cantidad = $articulos->count()-1;
         $cs = FALSE;
-        return view('/Inventario.InventarioTodoDet',compact('cantidad','articulos','cs'));
+        return view('/Inventario.InventarioTodoDet',compact('cantidad','cs'));
+    }
+
+    public function ListaInventarioTodoDatatable()
+    {
+
+        $articulos = articulo::where('id','!=',0)->select('id','codigo_empresa','nombre','marca','cantidad','reservado','ubicacion','costo','saldo_articulo','p_venta','p_ventapm')->get();
+        return datatables()->of($articulos)->toJson();
     }
 
     public function ListaInventarioTodoSaldo()
