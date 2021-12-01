@@ -88,48 +88,7 @@
             </div>
         
     </div>
-</div><br><br>
-
-<div class="wrapper wrapper-content animated fadeInRight">
-    <div class="modal-content panel-primary">
-            <div class="modal-header panel-heading">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
-                <h4 class="modal-title">REPORTE DE CUENTAS POR COBRAR</h4>
-            </div>
-            <br>
-            <div class="ibox-content">
-                <div id="divCargaDistritos" class="table-responsive">
-                    <table id="datatablescuentascobrar" class="table table-bordered table-hover table-striped table-sm">
-                        <thead style="background:#dfba14;color:#0c1011;text-align:center">
-                            <tr>
-                                <th>FECHA</th>
-                                <th>CLIENTE</th>
-                                <th>IMPORTE Bs.</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <?php $suma = 0; ?>
-                            @foreach($creditos as $credito)
-                            <tr class="gradeC">
-                                <td style="text-align: center;">{{$ff}}</td>
-                                <td style="text-align: center;">{{$credito->nombre}}</td>
-                                <td style="text-align: right;">{{number_format($credito->tsaldo,2)}}</td>
-                                <?php $suma += $credito->tsaldo; ?>
-                            </tr>
-                            @endforeach
-                            <tr>
-                                <td></td>
-                                <td style="text-align: right"><h5><b>Total en Bs:</b></h5></td>
-                                <td style="text-align: right;">{{number_format($suma,2)}}</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-        </div>
 </div>
-    
-</div>
-
 
 @endsection
 
@@ -189,60 +148,6 @@ $(document).ready( function () {
       }
     });
     } );
-
-    $(document).ready( function () {
-        $('#datatablescuentascobrar').DataTable({
-        dom: '<"html5buttons"B>lfgtip',
-        buttons: [
-            {
-                extend: 'excelHtml5',
-                text: '<button class="btn btn-success btn-sm"><i  class="far fa-file-excel"></i> </button>',
-                title: 'CUENTAS POR COBRAR',
-                titleAttr: 'Exportar a excel',
-            },
-            {
-                extend: 'pdfHtml5',
-                text: '<button class="btn btn-danger btn-sm"><i  class="far fa-file-pdf"></i> </button>',
-                title: 'CUENTAS POR COBRAR',
-                titleAttr: 'Exportar a PDF',
-            },
-            {
-                extend: 'print',
-                text: '<button class="btn btn-info btn-sm"><i  class="fas fa-print"></i> </button>',
-                title: 'CUENTAS POR COBRAR',
-                titleAttr: 'Imprimir',
-                customize: function (win){
-                    $(win.document.body).addClass('white-bg');
-                    $(win.document.body).css('font-size', '15pt');
-                    $(win.document.body).find('table')
-                            .addClass('compact')
-                            .css('font-size', 'inherit');
-                }
-            },
-        ],
-        "ordering": false,
-      "language": {
-        "bDeferRender": true,
-        "sEmtpyTable": "No existen registros",
-        "decimal": ",",
-        "thousands": ".",
-        "lengthMenu": "Mostrar _MENU_ datos por registros",
-        "zeroRecords": "No se encontraron coincidencias",
-        "info": "Pàgina _PAGE_ de _PAGES_",
-        "infoEmpty": "No existen Registros",
-        "search": "Buscar ",
-        "infoFiltered": "(Busqueda de _MAX_ registros en total)",
-        "oPaginate":{
-          "sLast":"Final",
-          "sFirst":"Principio",
-          "sNext":"Siguiente",
-          "sPrevious":"Anterior"
-        }
-      }
-    });
-    } );
-
-
 
     function mayus(e) {
         e.value = e.value.toUpperCase();

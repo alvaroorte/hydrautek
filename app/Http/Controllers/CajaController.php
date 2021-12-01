@@ -140,12 +140,8 @@ class CajaController extends Controller
         $gastosb = Movimiento_Banco::whereBetween('fecha',[$fi,$ff])->where('importe','<',0)->get();
         $gastos = $gastosc->concat($gastosb)->sortBy('created_at')->sortBy('fecha');
 
-        $creditos = Credito::join("proveedors","proveedors.id","=","creditos.id_proveedor")
-            ->where('creditos.tipo', 'compra' )->where('saldo','>',0)
-            ->select("proveedors.*","creditos.*")
-            ->get();
-        $pagar = $creditos->sum('saldo');
-        return view('/Reportes.VerReportesEntradaMes',compact('gastos', 'pagar', 'creditos', 'ff'));
+
+        return view('/Reportes.VerReportesEntradaMes',compact('gastos','ff'));
     }
 
     public function ReporteGastosForm()
@@ -174,6 +170,37 @@ class CajaController extends Controller
         $ingresos = $ingresosc->concat($ingresosb)->sortBy('created_at')->sortBy('fecha');
         
         
+        return view('/Reportes.VerReportesSalidaDia',compact('ventas','fi','ff','ingresos'));
+    }
+
+    public function ReporteFechaSalidaDiaForm()
+    {
+        return view('/Reportes.ReporteFormSalidaDia');
+    }
+
+    public function ReporteFechaCuentasPagar(Request $request)
+    {
+        $fi=$request->fi;
+        $ff=$request->ff;
+
+        $creditos = Credito::join("proveedors","proveedors.id","=","creditos.id_proveedor")
+            ->where('creditos.tipo', 'compra' )->where('saldo','>',0)
+            ->select("proveedors.*","creditos.*")
+            ->get();
+        $pagar = $creditos->sum('saldo');
+        return view('/Reportes.VerReportesCuentasPagar',compact('pagar', 'creditos', 'ff'));
+    }
+
+    public function ReporteFechaCuentasPagarForm()
+    {
+        return view('/Reportes.ReporteFormCuentasPagar');
+    }
+
+    public function ReporteFechaCuentasCobrar(Request $request)
+    {
+        $fi=$request->fi;
+        $ff=$request->ff;
+
         $creditos = Credito::join("clientes","clientes.id","=","creditos.id_cliente")
         ->where('creditos.tipo', 'venta' )->where('creditos.saldo','>',0)
         ->select("clientes.nombre",DB::raw('sum(creditos.saldo) as tsaldo'))
@@ -181,13 +208,12 @@ class CajaController extends Controller
         ->get();
 
         $pagar = $creditos->sum('saldo');
-        
-        return view('/Reportes.VerReportesSalidaDia',compact('ventas','fi','ff','creditos','ingresos'));
+        return view('/Reportes.VerReportesCuentasCobrar',compact('pagar', 'creditos', 'ff'));
     }
 
-    public function ReporteFechaSalidaDiaForm()
+    public function ReporteFechaCuentasCobrarForm()
     {
-        return view('/Reportes.ReporteFormSalidaDia');
+        return view('/Reportes.ReporteFormCuentasCobrar');
     }
 
     public function edit(Caja $caja)

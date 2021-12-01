@@ -75,6 +75,10 @@ Route::get('/reportefechaentradames','CajaController@ReporteGastosForm');
 Route::post('/reportefechaentradames','CajaController@ReporteGastos');
 Route::get('/reportefechasalidadia','CajaController@ReporteFechaSalidaDiaForm');
 Route::post('/reportefechasalidadia','CajaController@ReporteFechaSalidaDia');
+Route::get('/reportefechacuentaspagar','CajaController@ReporteFechaCuentasPagarForm');
+Route::post('/reportefechacuentaspagar','CajaController@ReporteFechaCuentasPagar');
+Route::get('/reportefechacuentascobrar','CajaController@ReporteFechaCuentasCobrarForm');
+Route::post('/reportefechacuentascobrar','CajaController@ReporteFechaCuentasCobrar');
 
 //rutas para los creditos
 Route::get('/mostrarcreditos/{tipo}','CreditoController@ListaCredito');

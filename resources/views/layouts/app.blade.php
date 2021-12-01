@@ -138,8 +138,6 @@
                                         <li><a href="{{url('mostrarcaja')}}">Movimiento de Caja</a></li>
                                         <li><a href="{{url('reportefechacaja')}}">Reporte por Fecha</a></li>
                                         @can('reportescaja')
-                                        <li><a href="{{url('reportefechasalidadia')}}">Reporte general de Ingresos</a></li>
-                                        <li><a href="{{url('reportefechaentradames')}}">Reporte general de Gastos</a></li>
                                         <li><a href="{{url('crearsaldoini')}}">Saldo inicial</a></li>
                                         @endcan
                                     </ul>   
@@ -162,7 +160,14 @@
                                         <li><a href="{{url('reportefechabanco')}}">Reporte por Fecha</a></li>
                                     </ul>   
                                 </li>
-                                
+                                <li><a><i class="fa fa-sitemap"></i>Reportes Generales <span class="fa fa-chevron-down"></span></a>
+                                    <ul class="nav child_menu" >
+                                        <li><a href="{{url('reportefechasalidadia')}}">Reporte general de Ingresos</a></li>
+                                        <li><a href="{{url('reportefechaentradames')}}">Reporte general de Gastos</a></li>
+                                        <li><a href="{{url('reportefechacuentaspagar')}}">Reporte general Cuentas por Pagar</a></li>
+                                        <li><a href="{{url('reportefechacuentascobrar')}}">Reporte general Cuentas por Cobrar</a></li>
+                                    </ul>   
+                                </li>
                             </ul>
                         </div>
                         <!--<div class="menu_section">

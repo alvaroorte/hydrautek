@@ -396,7 +396,7 @@ class ArticuloController extends Controller
     {
 
         $articulos=articulo::join("biens","articulos.id_bien","=","biens.id")
-        ->select("biens.nombre as nombre_bien","biens.id","articulos.*")
+        ->select("biens.nombre as nombre_bien","articulos.*")
         ->orderBy('id_bien')
         ->get();
 
@@ -434,7 +434,7 @@ class ArticuloController extends Controller
 
         $cantidad=articulo::all()->count()-1;
         $cs = FALSE;
-        return view('/Inventario.InventarioTodoDet',compact('cantidad','articulos','cs'));
+        return view('/Inventario.InventarioTodoDetFecha',compact('cantidad','articulos','cs'));
     }
 
 
@@ -442,7 +442,7 @@ class ArticuloController extends Controller
     {
 
         $articulos=articulo::join("biens","articulos.id_bien","=","biens.id")
-        ->select("biens.nombre as nombre_bien","biens.id","articulos.*")
+        ->select("biens.nombre as nombre_bien","articulos.*")
         ->orderBy('id_bien')
         ->get();
 
