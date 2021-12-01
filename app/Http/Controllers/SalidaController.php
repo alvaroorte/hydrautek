@@ -15,6 +15,7 @@ use App\Models\Movimiento_Banco;
 use App\Models\Operador;
 use App\Models\Pago;
 use App\Models\peps;
+use App\Models\Reserva;
 use Illuminate\Http\Request;
 use Barryvdh\DomPDF\Facade as PDF;
 use Hamcrest\Type\IsInteger;
@@ -111,6 +112,13 @@ class SalidaController extends Controller
             
             $salida->save();
 
+            if ($request->reserva == 1) {
+                $reserva = Reserva::where('identificador',$request->identificador_reserva)->first();
+                $reserva->codigo_reserva = $reserva->codigo_reserva." "."V";
+                $reserva->save();
+                
+            }
+
         }
         else {
             for($i=0;$i<count($request->id_bien);$i++)
@@ -174,6 +182,10 @@ class SalidaController extends Controller
                 $articulo->saldo_articulo -= $salida->costo_s;
                 if ($request->reserva == 1) {
                     $articulo->reservado -= $request->cantidad[$i];
+                    $reserva = Reserva::where('identificador',$request->identificador_reserva)->where('id_articulo',$request->id_articulo[$i])->first();
+                    $reserva->codigo_reserva = $reserva->codigo_reserva." "."V";
+                    $reserva->save();
+                    
                 }
                 
                 $salida->save();

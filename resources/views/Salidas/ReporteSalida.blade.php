@@ -41,7 +41,7 @@
     <header>
       <div class="card">
         <a href="{{url('mostrarsalidas')}}" class="config">
-          <img src="{{asset('assets/dashboard/images/Captura2.png')}}" alt="..." class="img-circle" width="100" height="54">
+          <img src="{{asset('assets/dashboard/images/HC2.png')}}" alt="..." class="img-circle" width="100" height="54">
         </a>
         <div class="car-body" style="text-align: center" >
           <span>Cod. Venta: <b>{{$salida->codigo_venta}}</b></span>
@@ -49,7 +49,7 @@
       </div>
     </header>
     <main><br>
-            <h4 style="text-align: center">HYDRAUTEK</h4>
+            <h4 style="text-align: center">HYDRAUCRUZ</h4>
             <br>
             <h5 style="text-align: center"> NOTA DE REMISION</h5>
             <br>
@@ -147,7 +147,7 @@
         
     </main>
     <footer>
-        <p><strong>HYDRAUTEK</strong></p>
+        <p><strong>HYDRAUCRUZ</strong></p>
     </footer>
 </body>
 </html>

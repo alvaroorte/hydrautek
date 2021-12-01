@@ -166,6 +166,7 @@
                             <tr>
                                 <th><h5>DATOS</h5></th>
                                 <th><h5>MONTO (Bs.)</h5></th>
+                                <th><h5>IMPRIMIR</h5></th>
                             </tr>
                         </thead>
                         @php
@@ -187,6 +188,7 @@
                                             BANCO 
                                         @endif
                                     </td>
+                                    <td><br><a href="{{url('verpagoreportecredito/'.$pago->id)}}" ><button class='btn btn-warning' title="Imprimir" ><i  class="fas fa-print"></i> </button></a></td>
                                 </tr>
                             @php
                                 $i = $i-$pago->monto;

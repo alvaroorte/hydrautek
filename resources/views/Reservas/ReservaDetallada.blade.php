@@ -41,7 +41,9 @@
                         </button>
                         <a href="{{url('mostrarreservas')}}" class="config" style="text-align: right"><button class='btn btn-warning'><span class="glyphicon glyphicon-repeat" aria-hidden="true"></span> Volver</button></a>
                         @if ($reserva->saldo <= 0)
-                            <button class="btn btn-outline-secondary" type="button" onclick="insertar('{{$id}}');"><i class="glyphicon glyphicon-plus"></i>Agregar para Ventas</button>
+                            @if (!strpos($reserva->codigo_reserva, 'V') !== false)
+                            <button class="btn btn-outline-secondary"  type="button" onclick="insertar('{{$id}}');"><i class="glyphicon glyphicon-plus"></i>Agregar para Ventas</button>
+                            @endif
                         @else
                             <a href="#NuevoPago" data-toggle="modal" class="config"><button class='btn btn-outline-secondary'><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Agregar Pago</button></a>
                         @endif
@@ -119,7 +121,7 @@
                             </table>   
                         @else
                             <table id="" class="table table-bordered table-hover table-striped table-sm">
-                                <thead style="background:#6d6d6d;color:#ffffff;text-align:center">
+                                <thead style="background:#42a8c7;color:#ffffff;text-align:center">
                                     <tr>
                                         <th width=10%>N°</th>
                                         <th>ARTICULOS A UTILIZAR</th>
@@ -172,6 +174,7 @@
                             <tr>
                                 <th><h5>DATOS</h5></th>
                                 <th><h5>MONTO (Bs.)</h5></th>
+                                <th><h5>IMPRIMIR</h5></th>
                             </tr>
                         </thead>
                         @php
@@ -193,6 +196,7 @@
                                             BANCO 
                                         @endif
                                     </td>
+                                    <td><br><a href="{{url('verpagoreportereserva/'.$pago->id)}}" ><button class='btn btn-warning' title="Imprimir" ><i  class="fas fa-print"></i> </button></a></td>
                                 </tr>
                             @php
                                 $i = $i-$pago->monto;
@@ -381,6 +385,7 @@
             <div class="modal-dialog modal-lg">
                 <div class="modal-content panel-primary">
                     <input type="hidden" name="reserva" id="reserva" value="1" class='form-control'>
+                    <input type="hidden" name="identificador_reserva" value="{{$reserva->identificador}}" class='form-control'>
                     <input type="hidden" name="id_cliente" id="id_cliente" class='form-control'>
                     <input  type="submit" name="ejecutar" class='float-right btn btn-primary' value="Guardar">
                 </div>    
@@ -444,6 +449,7 @@ $('.crearpagoreserva').submit(function(e){
       }
     });
     } );
+
 
     $("#scfactura").change(function()
     {

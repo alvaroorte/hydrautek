@@ -71,7 +71,7 @@ use App\Models\Cliente;
                 
             <div class="col-lg-2 ">
                 <strong>CANTIDAD </strong> <strong style="color: red;">*</strong>
-                <input type="number" name="cantidad" id="cantidad" onkeyup="cantidad(this);" class='form-control' required>
+                <input type="number" name="cantidad" id="cantidad" onkeyup="cantidad(this);" value="0" class='form-control' required>
             </div>
 
             <div class="col-lg-2">
@@ -80,8 +80,8 @@ use App\Models\Cliente;
             </div>
         </div>
         <div class="modal-body">
-                <input type="hidden" name="p_venta" id="p_venta" onkeyup="p_ventas(this);" class='form-control' required >
-                <input type="hidden" name="sub_total" id="sub_total" class='form-control' required readonly>
+                <input type="hidden" name="p_venta" id="p_venta" class='form-control'>
+                <input type="hidden" name="sub_total" id="sub_total" class='form-control'>
             
             <div class="col-lg-2">
                 <b onclick="insertar()" class="btn btn-success"> <i class="fa fa-plus">Agregar</i> </b>    
@@ -100,10 +100,14 @@ use App\Models\Cliente;
                     </div>
                 </div>
                 <div class="modal-body">
-                    <div class="col-lg-3"></div>
+                    <div class="col-lg-2"></div>
                     <div class="col-lg-3">
                         <strong>FECHA</strong>
                         <input type="date" name="fecha" id="fecha" class="form-control" value="{{date('Y-m-d')}}">
+                    </div>
+                    <div class="col-lg-2 ">
+                        <strong>PLAZO (Días)</strong>
+                        <input type="number" name="plazo" value="0"  class='form-control' required>
                     </div>
                 </div>
     
@@ -111,7 +115,7 @@ use App\Models\Cliente;
                     <div class="col-lg-1"></div>
                     <div class="col-lg-3 ">
                         <strong>CODIGO CLIENTE</strong>
-                        <input type="text" name="codigo_cli" id="codigo_cli" onkeyup="codigo_clien(this);" class='form-control'>
+                        <input type="text" name="codigo_cli" id="codigo_cli" onkeyup="codigo_clien(this);" class='form-control' required>
                     </div>
                     <div class="col-lg-3 ">
                         <strong>NIT CLIENTE</strong>
@@ -190,7 +194,7 @@ $('.crearreservaservi').submit(function(e){
         })
     });
 
-$("#id_bien").change(function()
+    $("#id_bien").change(function()
         {
             id=this.value;  
             $("#id_articulo").empty();
@@ -236,7 +240,6 @@ $("#id_bien").change(function()
                     {
                         $.each(data, function(field, e) 
                         {
-                            console.log("sssssss");
                             $('#cliente').val(e.nombre);
                             $('#id_cliente').val(e.id);
                             $('#codigo_cli').val(e.codigo_cli);
@@ -253,23 +256,23 @@ $("#id_bien").change(function()
     function codigo_clien(id) {
         codigo = id.value;
         url = '{{ asset("/index.php/buscarclientecodigo")}}/' + codigo;
-                $.getJSON(url, null, function(data)
+            $.getJSON(url, null, function(data)
+            {
+                if (data.length > 0) 
                 {
-                    if (data.length > 0) 
+                    $.each(data, function(field, e) 
                     {
-                        $.each(data, function(field, e) 
-                        {
-                            $('#cliente').val(e.nombre);
-                            $('#nit_cliente').val(e.ci);
-                            $('#id_cliente').val(e.id);
-                        });
-                    }
-                    else {
-                        $('#id_cliente').val("");
-                        $('#cliente').val("");
-                        $('#nit_cliente').val("");
-                    }        
-                });
+                        $('#cliente').val(e.nombre);
+                        $('#nit_cliente').val(e.ci);
+                        $('#id_cliente').val(e.id);
+                    });
+                }
+                else {
+                    $('#id_cliente').val("");
+                    $('#cliente').val("");
+                    $('#nit_cliente').val("");
+                }        
+            });
     }
 
 
@@ -284,11 +287,11 @@ $("#id_bien").change(function()
                     if (id>(e.cantidad-e.reservado)) {
                         $("#cantidad").val(e.cantidad-e.reservado);
                         $("#sub_total").empty();
-                        $("#sub_total").val(e.p_venta*$("#cantidad").val());
+                        $("#sub_total").val(0);
                         alert("LA CANTIDAD INTRODUCIDA ES MAYOR AL STOCK DEL ARTICULO");
                     } else {
                         $("#sub_total").empty();
-                        $("#sub_total").val($("#p_venta").val()*id);
+                        $("#sub_total").val(0);
                     }
                     
                 });
@@ -296,12 +299,10 @@ $("#id_bien").change(function()
         });
     }
 
-
     $("#cantidad").change(function()
     {
-        id = this.value*1;
+        id = id.value*1;
         url = '{{ asset("/index.php/encontrararticulo")}}/' + $("#id_articulo").val();
-        
         $.getJSON(url, null, function(data) {
             if (data.length > 0) 
             {
@@ -310,49 +311,18 @@ $("#id_bien").change(function()
                     if (id>(e.cantidad-e.reservado)) {
                         $("#cantidad").val(e.cantidad-e.reservado);
                         $("#sub_total").empty();
-                        $("#sub_total").val($("#p_venta").val()*$("#cantidad").val());
-                        alert("LA CANTIDAD INTRODUCIDA ES MAYOR AL STOCK DEL PRODUCTO");
+                        $("#sub_total").val(0);
+                        alert("LA CANTIDAD INTRODUCIDA ES MAYOR AL STOCK DEL ARTICULO");
                     } else {
                         $("#sub_total").empty();
-                        $("#sub_total").val($("#p_venta").val()*id);
+                        $("#sub_total").val(0);
                     }
+                    
                 });
             }
         });
     });
 
-    $("#p_venta").change(function()
-    {
-        id = $("#p_venta").val()*1;
-        url = '{{ asset("/index.php/encontrararticulo")}}/' + $("#id_articulo").val();
-        
-        $.getJSON(url, null, function(data) {
-            if (data.length > 0) 
-            {
-                $.each(data, function(field, e) 
-                {
-                    $("#sub_total").empty();
-                    $("#sub_total").val($("#cantidad").val()*id);
-                });
-            }
-        });
-    });
-
-
-    function p_ventas(id) {
-        id = id.value*1;
-        url = '{{ asset("/index.php/encontrararticulo")}}/' + $("#id_articulo").val();
-        $.getJSON(url, null, function(data) {
-            if (data.length > 0) 
-            {
-                $.each(data, function(field, e) 
-                {
-                    $("#sub_total").empty();
-                    $("#sub_total").val($("#cantidad").val()*id);
-                });
-            }
-        });
-    };
 
     function mayus(e) {
         e.value = e.value.toUpperCase();
@@ -418,6 +388,7 @@ $("#id_bien").change(function()
         else {
             url = '{{ asset("/index.php/encontrararticulocodigofabrica")}}/' + codigo;
         }
+        $.getJSON(url, null, function(data) {
             if (data.length > 0) 
             {
                 $("#cantidad_m").empty();
@@ -443,6 +414,7 @@ $("#id_bien").change(function()
 
     
 </script>
+
 
 <script type="text/javascript">
     var lista = new Array();

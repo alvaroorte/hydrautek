@@ -653,20 +653,9 @@ function nit_cli(id) {
           p_venta: p_venta,
           sub_total: sub_total,
       };
-      control = 0;
-      for (let index = 0; index < lista.length; index++) {
-          if (lista[index].id_articulo == id_articulo) {
-              control++;
-              break;
-          }
-      }
-      if (control == 0) {
-        lista.push(ingreso);
-      }
-      else {
-        alert("El producto ya se ingreso anteriormente");
-      }
-
+    
+      lista.push(ingreso);
+      
       
       $('#cuerpo').html("");
       lista.forEach(insertarTabla);

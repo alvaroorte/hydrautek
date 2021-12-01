@@ -91,7 +91,7 @@ class PagoController extends Controller
                     $banco->save();
                 }
                 $cliente = Cliente::find($credito->id_cliente);
-                $pdf = PDF::loadView('/Creditos.ReportePago', compact('salida','credito','pago','cliente'));
+                $pdf = PDF::loadView('/Creditos.ReportePago', compact('credito','pago','cliente'));
                 return $pdf->setPaper('a4')->stream('reportepago.pdf');
 
             } else {
@@ -143,9 +143,27 @@ class PagoController extends Controller
         return $pdf->setPaper('a4')->stream('reportepago.pdf');
     }
 
-    public function store(Request $request)
+    public function VerPagoReporteReserva($id)
     {
-        //
+        $pago = Pago::find($id);
+        $pagos = Pago::where('id','<=',$pago->id)->where('tipo','reserva')->where('id_credito',$pago->id_credito)->get();
+        $suma = 0;
+        $suma += $pagos->sum('monto');
+        $reserva = Reserva::where('identificador',$pago->id_credito)->first();
+        $pdf = PDF::loadView('/Reservas.ReportePagoPdf', compact('reserva','pago','suma'));
+        return $pdf->setPaper('a4')->stream('reportepago.pdf');
+    }
+
+    public function VerPagoReporteCredito($id)
+    {
+        $pago = Pago::find($id);
+        $pagos = Pago::where('id','<=',$pago->id)->where('tipo','venta')->where('id_credito',$pago->id_credito)->get();
+        $suma = 0;
+        $suma += $pagos->sum('monto');
+        $credito = Credito::where('id',$pago->id_credito)->first();
+        $cliente = Cliente::find($credito->id_cliente);
+        $pdf = PDF::loadView('/Creditos.ReportePagoPdf', compact('credito','pago','cliente','suma'));
+        return $pdf->setPaper('a4')->stream('reportepago.pdf');
     }
 
     /**

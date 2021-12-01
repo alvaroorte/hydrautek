@@ -40,6 +40,8 @@ Route::get('/home', 'HomeController@index')->name('home');
 
 //rutas para los pagos
 Route::post('/crearpago','PagoController@CrearPago');
+Route::get('/verpagoreportereserva/{id}','PagoController@VerPagoReporteReserva');
+Route::get('/verpagoreportecredito/{id}','PagoController@VerPagoReporteCredito');
 
 //rutas para los bancos
 Route::get('/mostrarbancos','BancoController@ListaBanco');

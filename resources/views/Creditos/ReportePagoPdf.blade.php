@@ -5,7 +5,7 @@
   
 <head>
     <meta charset="UTF-8">
-    <title>REPORTE DE SALIDA</title>
+    <title>REPORTE DE PAGO</title>
     <link href="{{asset('assets/dashboard/vendors/bootstrap/dist/css/bootstrap.min.css')}}" rel="stylesheet">
     <style>
         @page {
@@ -39,35 +39,32 @@
 <body>
     <header>
       <div class="card">
-        <a href="{{url('mostrarsalidas')}}" class="config">
+        <a href="{{url('creditodetallados/'.$credito->id.'/'.$credito->tipo)}}" class="config">
           <img src="{{asset('assets/dashboard/images/HC2.png')}}" alt="..." class="img-circle" width="100" height="54">
         </a>
         <div class="car-body" style="text-align: center" >
-          <span>Cod. Venta: <b>{{$salida->codigo_venta}}</b></span>
+          <span>Codigo: <b>{{$credito->codigo}}</b></span>
         </div>
       </div>
     </header>
     <main><br>
             <h4 style="text-align: center">HYDRAUCRUZ</h4>
             <br>
-            <h5 style="text-align: center"> NOTA DE REMISION</h5>
+            <h5 style="text-align: center"> NOTA DE PAGO</h5><h6 style="text-align: center"> N° 0{{$pago->id}}</h6>
             <br>
             <table class="table table-striped text-center">
             <tr>
-                <th width="53%">Modalidad de Pago </th>
-                <th>@if ($salida->sccredito == 1)
-                      Credito
-                    @else
-                      @if ($salida->sccredito == 0)
-                          Efectivo
-                      @else
-                          Banco
-                      @endif
-                    @endif </th>
+                <th width="53%">Modalidad de Pago</th>
+                @if ($pago->id_banco != null)
+                  <th>Banco</th>
+                @else
+                  <th>Efectivo</th>
+                @endif
+                
             </tr>
             <tr>
-              <th>Fecha de Venta </th>
-              <td style="text-align: left"> {{$salida->fecha}} </td>
+              <th>Fecha de Pago </th>
+              <td style="text-align: left"> {{$pago->fecha}} </td>
             </tr>
              
             </table>
@@ -84,43 +81,36 @@
           </thead>
           <tbody>
             <tr class="gradeC">
-                <td style="text-align: center; font-size: 10pt;">{{$salida->cliente}}</td>
-                <td style="text-align: center; font-size: 10pt;">{{$salida->nit_cliente}}</td>
-              
-              
+                <td style="text-align: center; font-size: 10pt;">{{$cliente->nombre}}</td>
+                <td style="text-align: center; font-size: 10pt;">{{$cliente->ci}}</td>
             </tr>
             </tbody>
           </table>
           <table class="table table-bordered table-hover table-striped table-sm">
             <thead style="background:#343a40;color:#D0D3D4;text-align:center">
               <tr class="col-auto bg-secondary">
-                  <th width="70%">SERVICIO</th>
-                  <th >P_UNITARIO (Bs)</th>
-                  <th >SUB TOTAL (Bs)</th>
+                  <th >PAGANTE</th> 
+                  <th >NIT/CI</th>
+                  <th >MONTO (Bs.)</th>
+                  <th width=12%>SALDO (Bs.)</th>
                   
               </tr>
             </thead>
             <tbody style="text-align: center">
               <?php $i = 0; ?>
+              
               <tr class="gradeC">
-                <td>{{$salida->detalle}}</td>
-                <td>{{$salida->total}}</td>
-                <td>{{$salida->total}}</td>
-                <?php $i = $i+$salida->sub_total ?>
+                <td>{{$pago->nombre}}</td>
+                <td>{{$pago->ci}}</td>
+                <td>{{number_format($pago->monto,2)}}</td>
+                <td>{{number_format($credito->total-$suma,2)}}</td>
               </tr>
-              <tr><td colspan="3" ><button class='btn btn-light dim'></button> </td></tr>
+              <tr><td colspan="4" ><button class='btn btn-light dim'></button> </td></tr>
               <tr>
-                <th style="text-align: right" colspan="2" >TOTAL (Bs):</th>
-                <th st>{{$salida->total}} </th>
+                <th style="text-align: right" colspan="3" >TOTAL SALDO(Bs):</th>
+                <th st>{{number_format($credito->total-$suma,2)}} </th>
               </tr>
-              <tr>
-                <th style="text-align: right" colspan="2" >Descuento (Bs):</th>
-                <th st>{{$salida->descuento}} </th>
-              </tr>
-              <tr>
-                <th style="text-align: right" colspan="2" >TOTAL NETO (Bs):</th>
-                <th st>{{$salida->total-$salida->descuento}}</th>
-              </tr>
+              
             </tbody>
           </table>
 
@@ -135,7 +125,6 @@
           </tbody>
         </table>
 
-
         
     </main>
     <footer>
@@ -143,3 +132,16 @@
     </footer>
 </body>
 </html>
+
+
+
+
+
+
+
+
+
+
+
+
+

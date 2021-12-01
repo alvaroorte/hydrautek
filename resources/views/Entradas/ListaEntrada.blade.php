@@ -756,19 +756,9 @@ $(document).ready( function () {
             p_total : p_total,
             p_venta : p_venta,
         };
-
-        control = 0;
-        for (let index = 0; index < lista.length; index++) {
-            if (lista[index].articulo == articulo) {
-                control++;
-            }
-        }
-        if (control == 0) {
-            lista.push(ingreso);
-        }
-        else {
-            alert("El producto ya se ingreso anteriormente");
-        }
+        
+        lista.push(ingreso);
+        
         if(lista.length > 0)
             $('#bguardar').show();
 

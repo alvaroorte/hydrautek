@@ -369,7 +369,6 @@ function nit_cli(id) {
                 {
                     if (data.length > 0) 
                     {
-                        console.log("FFFFFFFFF");
                         $.each(data, function(field, e) 
                         {
                             $('#cliente').val(e.nombre);
@@ -807,21 +806,8 @@ function nit_cli(id) {
           sub_total: sub_total,
           total: total, 
       };
-      control = 0;
-      for (let index = 0; index < lista.length; index++) {
-          if (lista[index].id_articulo == id_articulo) {
-              control++;
-              break;
-          }
-      }
-      if (control == 0) {
+      
         lista.push(ingreso);
-      }
-      else {
-        to -= sub_total;
-        $('#total').val(to);
-        alert("El producto ya se ingreso anteriormente");
-      }
         if(lista.length > 0)
             $('#bguardar').show();
 
