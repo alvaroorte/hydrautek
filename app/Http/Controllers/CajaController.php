@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Exports\cajasExport;
+use App\Models\Banco;
 use App\Models\Caja;
 use App\Models\Credito;
 use App\Models\Movimiento_Banco;
@@ -214,6 +215,51 @@ class CajaController extends Controller
     public function ReporteFechaCuentasCobrarForm()
     {
         return view('/Reportes.ReporteFormCuentasCobrar');
+    }
+
+    public function ReporteGeneralSaldos(Request $request)
+    {
+        $fi=$request->fi;
+        $ff=$request->ff;
+        $fii = Caja::select('fecha')->orderBy('id')->first();
+
+        $ventas = Salida::whereBetween('fecha',[$fi,$ff])->where('estado',true)->distinct('fecha')->get();
+        foreach ($ventas as $venta) {
+            $saldo = 0;
+            $salidas = Salida::where('fecha',$venta->fecha)->where('estado',true)->distinct('identificador')->get();
+            foreach ($salidas as $salida) {
+                $saldo += $salida->total-$salida->descuento;
+            }
+            $venta->total = $saldo;
+        }
+        $tv = $ventas->sum('total');
+        $ingresosc = Caja::whereBetween('fecha',[$fi,$ff])->where('importe','>',0)
+        ->where('concepto', '!=','Venta al Contado')->get();
+        $ingresosb = Movimiento_Banco::whereBetween('fecha',[$fi,$ff])->where('importe','>',0)
+        ->where('concepto', '!=','Venta')->get();
+        $ingresos = $ingresosc->concat($ingresosb)->sortBy('created_at')->sortBy('fecha');
+        $ti = $ingresos->sum('importe');
+        $ventas = $tv+$ti;
+        
+        $gastosc = Caja::whereBetween('fecha',[$fi,$ff])->where('importe','<',0)->get();
+        $gastosb = Movimiento_Banco::whereBetween('fecha',[$fi,$ff])->where('importe','<',0)->get();
+        $gastos = $gastosc->concat($gastosb)->sortBy('created_at')->sortBy('fecha');
+        $gastos = $gastos->sum('importe');
+
+        $efectivo = Caja::select('saldo')->latest('id')->first();
+        $bancos = Banco::all();
+        foreach ($bancos as $banco) {
+            $banco->saldo_inicial = Movimiento_Banco::where('id_banco',$banco->id)->get()->sum('importe');
+        }
+        $tb = $bancos->sum('saldo_inicial');
+        $pdf = PDF::loadView('/Reportes.VerReporteSaldos', compact('fii','tb','ventas','gastos','efectivo','bancos','fi','ff'));
+        return $pdf->setPaper('a4')->stream('ReporteSaldos.pdf');
+        
+    }
+
+    public function ReporteGeneralSaldosForm()
+    {
+        return view('/Reportes.ReporteFormSaldos');
     }
 
     public function edit(Caja $caja)

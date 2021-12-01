@@ -3,7 +3,7 @@
 @section('ruta')
 <div class="row wrapper border-bottom white-bg page-heading">
     <div class="col-lg-6">
-        <h2>REPORTE DE GASTOS</h2>
+        <h2>REPORTE GENERAL DE SALDOS</h2>
     </div>
     <div class="col-lg-6">
 
@@ -33,10 +33,10 @@
         <div class="modal-content panel-primary">
             <div class="modal-header panel-heading">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
-                <h4 class="modal-title">REPORTE DE GASTOS</h4>
+                <h4 class="modal-title">REPORTE GENERAL DE SALDOS</h4>
             </div>
             <div class="modal-body">
-                <form class="form-horizontal" role="form" method="POST" action="{{url('reportefechaentradames')}}" autocomplete="off">
+                <form class="form-horizontal" role="form" method="POST" action="{{url('reportegeneralsaldos')}}" autocomplete="off">
                     {{ csrf_field() }}
                     
                     <div class="row">

@@ -166,6 +166,7 @@
                                         <li><a href="{{url('reportefechaentradames')}}">Reporte general de Gastos</a></li>
                                         <li><a href="{{url('reportefechacuentaspagar')}}">Reporte general Cuentas por Pagar</a></li>
                                         <li><a href="{{url('reportefechacuentascobrar')}}">Reporte general Cuentas por Cobrar</a></li>
+                                        <li><a href="{{url('reportegeneralsaldos')}}">Reporte general de Saldos</a></li>
                                     </ul>   
                                 </li>
                             </ul>
