@@ -14,7 +14,7 @@
                         </div>
                     @endif
 
-                    Ya puede utilizar el sistema, que deseas realizar?
+                    Ya puede utilizar el sistema!, que deseas realizar?
                 </div>
             </div>
         </div>
