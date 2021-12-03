@@ -3,7 +3,7 @@
     <thead style="background:#3c46d3;color:#ffffff;text-align:center">
         <tr>
             <td colspan="2"></td>
-            <td colspan="3" style="font-size:22pt"><b>HYDRAUCRUZ</b></td>
+            <td colspan="3" style="font-size:22pt"><b>HYDRAUTEK</b></td>
         </tr>
         <tr>
             <td colspan="2"></td>

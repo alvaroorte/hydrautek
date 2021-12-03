@@ -3,7 +3,7 @@
 @section('ruta')
 <div class="row wrapper border-bottom white-bg page-heading">
     <div class="col-lg-6">
-        <h2>COMPRAS</h2>
+        <h2>GASTOS</h2>
     </div>
     <div class="col-lg-6">
 

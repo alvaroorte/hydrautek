@@ -39,7 +39,7 @@
     <header>
         <div class="card">
             <a href="{{url('mostrarreservas')}}" class="config">
-              <img src="{{asset('assets/dashboard/images/HC2.png')}}" alt="..." class="img-circle" width="100" height="54">
+              <img src="{{asset('assets/dashboard/images/Captura2.png')}}" alt="..." class="img-circle" width="100" height="54">
             </a>
             <div class="car-body" style="text-align: center" >
                 <span><b>{{$reserva->codigo_reserva}}</b></span>
@@ -47,7 +47,7 @@
           </div>
     </header>
     <main><br>
-            <h4 style="text-align: center">HYDRAUCRUZ</h4>
+            <h4 style="text-align: center">HYDRAUTEK</h4>
             <br>
             <table class="table table-striped text-center">
             <tr>
@@ -96,22 +96,22 @@
         <table class="table table-bordered table-hover table-striped table-sm">
             <thead style="background:#343a40;color:#D0D3D4;text-align:center">
                 <tr class="col-auto bg-secondary">
-                    <th width=8%>CANTIDAD</th>
-                    <th >GRUPO</th> 
                     <th >ARTICULO</th>
-                    <th >MARCA</th>
-                    <th width=8%>P. VENTA</th>
-                    <th width=8%>SUB TOTAL</th>
+                    <th width=12%>MARCA</th>
+                    <th width=8%>CANTIDAD</th>
+                    <th width=8%>UNIDAD</th>
+                    <th width=10%>P. UNITARIO (Bs)</th>
+                    <th width=12%>SUB TOTAL (Bs)</th>
                     
                 </tr>
             </thead>
             <tbody style="text-align: center">
                 @foreach($sql as $reserva)
                 <tr class="gradeC">
-                    <td>{{$reserva->cantidad}}</td>
-                    <td>{{$reserva->nombre_bien}}</td>
                     <td>{{$reserva->nombre_articulo}}</td>
                     <td>{{$reserva->marca}}</td>
+                    <td>{{$reserva->cantidad}}</td>
+                    <td>{{$reserva->unidad}}(s)</td>
                     <td>{{$reserva->p_venta}}</td>
                     <td>{{$reserva->sub_total}}</td>
                 </tr>
@@ -174,7 +174,7 @@
         
     </main>
     <footer>
-        <p><strong>HYDRAUCRUZ</strong></p>
+        <p><strong>HYDRAUTEK</strong></p>
     </footer>
 </body>
 </html>

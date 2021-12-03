@@ -41,7 +41,7 @@
     <header>
       <div class="card">
         <a href="{{url('mostrarsalidas')}}" class="config">
-          <img src="{{asset('assets/dashboard/images/HC2.png')}}" alt="..." class="img-circle" width="100" height="54">
+          <img src="{{asset('assets/dashboard/images/Captura2.png')}}" alt="..." class="img-circle" width="100" height="54">
         </a>
         <div class="car-body" style="text-align: center" >
           <span>Cod. Venta: <b>{{$salida->codigo_venta}}</b></span>
@@ -49,7 +49,7 @@
       </div>
     </header>
     <main><br>
-            <h4 style="text-align: center">HYDRAUCRUZ</h4>
+            <h4 style="text-align: center">HYDRAUTEK</h4>
             <br>
             <h5 style="text-align: center"> NOTA DE REMISION</h5>
             <br>
@@ -98,6 +98,7 @@
                   <th >ARTICULO</th>
                   <th width=12%>MARCA</th>
                   <th width=8%>CANTIDAD</th>
+                  <th width=8%>UNIDAD</th>
                   <th width=10%>P. UNITARIO (Bs)</th>
                   <th width=12%>SUB TOTAL (Bs)</th>
                   
@@ -111,6 +112,7 @@
                 <td>{{$salidas->nombre_articulo}}</td>
                 <td>{{$salidas->marca}}</td>
                 <td>{{$salidas->cantidad}}</td>
+                <td>{{$salidas->unidad}}(s)</td>
                 <td>{{$salidas->p_venta}}</td>
                 <td>{{$salidas->sub_total}}</td>
                 <?php $i = $i+$salidas->sub_total ?>
@@ -118,15 +120,15 @@
               @endforeach
               <tr><td colspan="6" ><button class='btn btn-light dim'></button> </td></tr>
               <tr>
-                <th style="text-align: right" colspan="5" >TOTAL (Bs):</th>
+                <th style="text-align: right" colspan="6" >TOTAL (Bs):</th>
                 <th st>{{$salida->total}} </th>
               </tr>
               <tr>
-                <th style="text-align: right" colspan="5" >Descuento (Bs):</th>
+                <th style="text-align: right" colspan="6" >Descuento (Bs):</th>
                 <th st>{{$salida->descuento}} </th>
               </tr>
               <tr>
-                <th style="text-align: right" colspan="5" >TOTAL NETO (Bs):</th>
+                <th style="text-align: right" colspan="6" >TOTAL NETO (Bs):</th>
                 <th st>{{$salida->total-$salida->descuento}}</th>
               </tr>
             </tbody>
@@ -147,7 +149,7 @@
         
     </main>
     <footer>
-        <p><strong>HYDRAUCRUZ</strong></p>
+        <p><strong>HYDRAUTEK</strong></p>
     </footer>
 </body>
 </html>

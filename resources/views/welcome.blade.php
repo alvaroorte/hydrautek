@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-    <title>HYDRAUCRUZ</title>
+    <title>HYDRAUTEK</title>
     <meta content="" name="description">
     <meta content="" name="keywords">
 
@@ -43,7 +43,7 @@
 
             <div class="row justify-content-center">
                 <div class="col-xl-9 d-flex align-items-center">
-                    <h1 class="logo mr-auto"><a href="{{ route('login') }}">HYDRAUCRUZ<a href="{{ route('login') }}" class="logo mr-auto"><img src="{{asset('assets/dashboard/images/HC2.png')}}" alt="" class="img-fluid"></a></a></h1>
+                    <h1 class="logo mr-auto"><a href="{{ route('login') }}">HYDRAUTEK<a href="{{ route('login') }}" class="logo mr-auto"><img src="{{asset('assets/dashboard/images/Captura2.png')}}" alt="" class="img-fluid"></a></a></h1>
                     <!-- Uncomment below if you prefer to use an image logo -->
                      
 

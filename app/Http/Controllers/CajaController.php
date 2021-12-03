@@ -158,16 +158,16 @@ class CajaController extends Controller
         $ventas = Salida::whereBetween('fecha',[$fi,$ff])->distinct('fecha') ->get();
         foreach ($ventas as $venta) {
             $saldo = 0;
-            $salidas = Salida::where('fecha',$venta->fecha)->where('estado',true)->distinct('identificador')->get();
+            $salidas = Salida::where('fecha',$venta->fecha)->where('estado',true)->where('sccredito','!=',1)->distinct('identificador')->get();
             foreach ($salidas as $salida) {
                 $saldo += $salida->total-$salida->descuento;
             }
             $venta->total = $saldo;
         }
-        $ingresosc = Caja::whereBetween('fecha',[$fi,$ff])->where('importe','>',0)
+        $ingresosc = Caja::whereBetween('fecha',[$fi,$ff])->where('importe','>',0)->where('id','!=',1)
         ->where('concepto', '!=','Venta al Contado')->get();
         $ingresosb = Movimiento_Banco::whereBetween('fecha',[$fi,$ff])->where('importe','>',0)
-        ->where('concepto', '!=','Venta')->get();
+        ->where('concepto', '!=','Venta')->where('concepto', '!=','Saldo Inicial de banco')->get();
         $ingresos = $ingresosc->concat($ingresosb)->sortBy('created_at')->sortBy('fecha');
         
         
@@ -223,20 +223,13 @@ class CajaController extends Controller
         $ff=$request->ff;
         $fii = Caja::select('fecha')->orderBy('id')->first();
 
-        $ventas = Salida::whereBetween('fecha',[$fi,$ff])->where('estado',true)->distinct('fecha')->get();
-        foreach ($ventas as $venta) {
-            $saldo = 0;
-            $salidas = Salida::where('fecha',$venta->fecha)->where('estado',true)->distinct('identificador')->get();
-            foreach ($salidas as $salida) {
-                $saldo += $salida->total-$salida->descuento;
-            }
-            $venta->total = $saldo;
-        }
+        $ventas = Salida::whereBetween('fecha',[$fi,$ff])->where('sccredito','!=',1)->where('estado',true)->get();
+        
         $tv = $ventas->sum('total');
-        $ingresosc = Caja::whereBetween('fecha',[$fi,$ff])->where('importe','>',0)
+        $ingresosc = Caja::whereBetween('fecha',[$fi,$ff])->where('importe','>',0)->where('id','!=',1)
         ->where('concepto', '!=','Venta al Contado')->get();
         $ingresosb = Movimiento_Banco::whereBetween('fecha',[$fi,$ff])->where('importe','>',0)
-        ->where('concepto', '!=','Venta')->get();
+        ->where('concepto', '!=','Venta')->where('concepto', '!=','Saldo Inicial de banco')->get();
         $ingresos = $ingresosc->concat($ingresosb)->sortBy('created_at')->sortBy('fecha');
         $ti = $ingresos->sum('importe');
         $ventas = $tv+$ti;
@@ -252,7 +245,21 @@ class CajaController extends Controller
             $banco->saldo_inicial = Movimiento_Banco::where('id_banco',$banco->id)->get()->sum('importe');
         }
         $tb = $bancos->sum('saldo_inicial');
-        $pdf = PDF::loadView('/Reportes.VerReporteSaldos', compact('fii','tb','ventas','gastos','efectivo','bancos','fi','ff'));
+
+        $creditos = Credito::join("clientes","clientes.id","=","creditos.id_cliente")
+        ->where('creditos.tipo', 'venta' )->where('creditos.saldo','>',0)
+        ->select("clientes.nombre",DB::raw('sum(creditos.saldo) as tsaldo'))
+        ->groupBy('clientes.id')
+        ->get();
+        $porcobrar = $creditos->sum('tsaldo');
+
+        $creditos = Credito::join("proveedors","proveedors.id","=","creditos.id_proveedor")
+            ->where('creditos.tipo', 'compra' )->where('saldo','>',0)
+            ->select("proveedors.*","creditos.*")
+            ->get();
+        $porpagar = $creditos->sum('saldo');
+
+        $pdf = PDF::loadView('/Reportes.VerReporteSaldos', compact('fii','tb','ventas','gastos','efectivo','bancos','fi','ff','porcobrar','porpagar'));
         return $pdf->setPaper('a4')->stream('ReporteSaldos.pdf');
         
     }

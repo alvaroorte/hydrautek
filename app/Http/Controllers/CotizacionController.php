@@ -113,7 +113,7 @@ class CotizacionController extends Controller
         ->join("articulos", "cotizacions.id_articulo","=","articulos.id")
         ->where('cotizacions.identificador', '=', $cotizacion->identificador) 
         ->select("articulos.nombre as nombre_articulo","articulos.*","biens.nombre as nombre_bien","cotizacions.*",)
-        ->orderBy('cotizacions.id','desc')
+        ->orderBy('cotizacions.id','Asc')
         ->get();
         
         $pdf = PDF::loadView('/Cotizaciones.ReporteCotizacion', compact('cotizacion','sql','request'));
@@ -164,10 +164,7 @@ class CotizacionController extends Controller
     {
         Cotizacion::find($request->id)->update($request->all());
         $cotizacion = Cotizacion::find($request->id);
-
-        $cotizacion->descuento = $request->descuento;
-        $cotizacion->save();
-        Cotizacion::where('identificador', $cotizacion->identificador)->update(array('total' => $cotizacion->total, 'descuento' => $cotizacion->descuento )); 
+        Cotizacion::where('identificador', $cotizacion->identificador)->update(array('total' => $cotizacion->total)); 
        
         return redirect(url('cotizaciondetallada/'.$cotizacion->identificador))->with('success', 'Cotizacion actualizada satisfactoriamente');
     }

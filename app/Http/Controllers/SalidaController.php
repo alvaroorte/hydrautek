@@ -246,7 +246,7 @@ class SalidaController extends Controller
         ->join("articulos", "salidas.id_articulo","=","articulos.id")
         ->where('salidas.identificador', '=', $salida->identificador) 
         ->select("articulos.nombre as nombre_articulo","articulos.*","biens.nombre as nombre_bien","salidas.*",)
-        ->orderBy('salidas.id','desc')
+        ->orderBy('salidas.id','Asc')
         ->get();
 
         if ($request->tipo == 1) {

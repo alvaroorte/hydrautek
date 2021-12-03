@@ -39,7 +39,7 @@
     <header>
         <div class="card">
             <a href="{{url('mostrarcotizaciones')}}" class="config">
-              <img src="{{asset('assets/dashboard/images/HC2.png')}}" alt="..." class="img-circle" width="100" height="54">
+              <img src="{{asset('assets/dashboard/images/Captura2.png')}}" alt="..." class="img-circle" width="100" height="54">
             </a>
             <div class="car-body" style="text-align: center" >
                 <span><b>{{$cotizacion->codigo_coti}}</b></span>
@@ -47,7 +47,7 @@
           </div>
     </header>
     <main><br>
-            <h4 style="text-align: center">HYDRAUCRUZ</h4>
+            <h4 style="text-align: center">HYDRAUTEK</h4>
             <br>
             <table class="table table-striped text-center">
             <tr>
@@ -91,22 +91,22 @@
         <table class="table table-bordered table-hover table-striped table-sm">
             <thead style="background:#343a40;color:#D0D3D4;text-align:center">
                 <tr class="col-auto bg-secondary">
-                    <th width=8%>CANTIDAD</th>
-                    <th >GRUPO</th> 
                     <th >ARTICULO</th>
-                    <th >MARCA</th>
-                    <th width=8%>P. VENTA</th>
-                    <th width=8%>SUB TOTAL</th>
+                    <th width=12%>MARCA</th>
+                    <th width=8%>CANTIDAD</th>
+                    <th width=8%>UNIDAD</th>
+                    <th width=10%>P. UNITARIO (Bs)</th>
+                    <th width=12%>SUB TOTAL (Bs)</th>
                     
                 </tr>
             </thead>
             <tbody style="text-align: center">
                 @foreach($sql as $cotizacions)
                 <tr class="gradeC">
-                    <td>{{$cotizacions->cantidad}}</td>
-                    <td>{{$cotizacions->nombre_bien}}</td>
                     <td>{{$cotizacions->nombre_articulo}}</td>
                     <td>{{$cotizacions->marca}}</td>
+                    <td>{{$cotizacions->cantidad}}</td>
+                    <td>{{$cotizacions->unidad}}(s)</td>
                     <td>{{$cotizacions->p_venta}}</td>
                     <td>{{$cotizacions->sub_total}}</td>
                 </tr>
@@ -169,7 +169,7 @@
         
     </main>
     <footer>
-        <p><strong>HYDRAUCRUZ</strong></p>
+        <p><strong>HYDRAUTEK</strong></p>
     </footer>
 </body>
 </html>

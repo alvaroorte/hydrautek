@@ -297,10 +297,6 @@
                             <strong>SUB TOTAL </strong><strong style="color: red;">*</strong>
                             <input type="number" id="sub_total" name="sub_total" class='form-control' required readonly>
                         </div>
-                        <div class="col-lg-2">
-                            <strong>DESCUENTO </strong><strong style="color: red;">*</strong>
-                            <input type="number" id="descuentoc" name="descuento" class='form-control' required>
-                        </div>
                     </div>
                     <br>
                     <div class="row">

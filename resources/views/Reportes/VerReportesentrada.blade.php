@@ -41,10 +41,10 @@
     <header>
         <div class="card">
             <a href="{{url('reportefechaentrada')}}" class="config">
-              <img src="{{asset('assets/dashboard/images/HC2.png')}}" alt="..." class="img-circle" width="100" height="54">
+              <img src="{{asset('assets/dashboard/images/Captura2.png')}}" alt="..." class="img-circle" width="100" height="54">
             </a>
             <div class="car-body" style="text-align: center" >
-                <span><b>HYDRAUCRUZ</b></span>
+                <span><b>HYDRAUTEK</b></span>
             </div>
         </div>
     </header>
@@ -102,7 +102,7 @@
         <br>       
     </main>
     <footer>
-        <p><strong>HYDRAUCRUZ</strong></p>
+        <p><strong>HYDRAUTEK</strong></p>
     </footer>
 </body>
 </html>

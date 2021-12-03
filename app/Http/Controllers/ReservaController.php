@@ -130,7 +130,7 @@ class ReservaController extends Controller
         ->join("articulos", "reservas.id_articulo","=","articulos.id")
         ->where('reservas.identificador', '=', $reserva->identificador) 
         ->select("articulos.nombre as nombre_articulo","articulos.*","biens.nombre as nombre_bien","reservas.*",)
-        ->orderBy('reservas.id','desc')
+        ->orderBy('reservas.id','Asc')
         ->get();
         
         $pdf = PDF::loadView('/Reservas.ReporteReserva', compact('reserva','sql','request','plazo'));

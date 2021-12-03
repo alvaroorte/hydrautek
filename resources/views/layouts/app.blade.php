@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" href="images/favicon.ico" type="image/ico" />
 
-    <title>HYDRAUCRUZ | </title>
+    <title>HYDRAUTEK | </title>
 
     <!-- Bootstrap -->
     <link href="{{asset('assets/dashboard/vendors/bootstrap/dist/css/bootstrap.min.css')}}" rel="stylesheet">
@@ -42,7 +42,7 @@
             <div class="col-md-3 left_col">
                 <div class="left_col scroll-view">
                     <div class="navbar nav_title" style="border: 0;">
-                        <a href="{{url('home')}}" class="site_title"><i class="fa fa-wrench"></i> <span>HYDRAUCRUZ</span></a>
+                        <a href="{{url('home')}}" class="site_title"><i class="fa fa-wrench"></i> <span>HYDRAUTEK</span></a>
                     </div>
 
                     <div class="clearfix"></div>
@@ -50,7 +50,7 @@
                     <!-- menu profile quick info -->
                     <div class="profile clearfix" style="display: flex; justify-content: center; align-items: center;" >
                         <div class="profile_pic"  >
-                            <img src="{{asset('assets/dashboard/images/HC2.png')}}" alt="..." class="img-circle" style="width: 120%">
+                            <img src="{{asset('assets/dashboard/images/Captura2.png')}}" alt="..." class="img-circle" style="width: 120%">
                         </div>
                         
                     </div>
@@ -247,7 +247,7 @@
                         <ul class=" navbar-right">
                             <li class="nav-item dropdown open" style="padding-left: 15px;">
                                 <a href="javascript:;" class="user-profile dropdown-toggle" aria-haspopup="true" id="navbarDropdown" data-toggle="dropdown" aria-expanded="false">
-                                     <img src="{{asset('assets/dashboard/images/HC2.png')}}" alt="" >
+                                     <img src="{{asset('assets/dashboard/images/Captura2.png')}}" alt="" >
                                 </a>
                                 <div class="dropdown-menu dropdown-usermenu pull-right" aria-labelledby="navbarDropdown">
                                     <a class="dropdown-item" href="javascript:;"> Profile</a>
@@ -300,7 +300,7 @@
             <!-- footer content -->
             <footer>
                 <div class="pull-right">
-                     <a href="http://hydraucruz@hotmail.com">hydraucruz@hotmail.com</a>
+                     <a href="http://hydrautek@hotmail.com">hydrautek@hotmail.com</a>
                 </div>
                 <div class="clearfix"></div>
             </footer>
