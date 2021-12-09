@@ -39,50 +39,32 @@ use App\Models\Cliente;
         <div class="modal-content panel-primary">
             <div class="modal-header panel-heading">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
-                <h5 class="modal-title">Articulos</h5>
+                <h5 class="modal-title">Servicio</h5>
+            </div>
+            <input type="hidden" name="id_bien" id="id_bien" value="0" class='form-control' required>
+            <input type="hidden" name="id_articulo" id="id_articulo" value="0" class='form-control' required>
+            <div class="modal-body">
+                <div class="col-lg-10">
+                    <strong>SERVICIO </strong> <strong style="color: red;">*</strong>
+                    <input type="text" name="detalle" id="detalle" onkeyup="mayus(this);" class='form-control' required>
+                </div>
             </div>
             <div class="modal-body">
-                <div class="col-lg-3 ">
-                    <strong>CODIGO DE EMPRESA</strong>
-                    <input type="text" name="codigo_empre" id="codigo_empre" onchange="codigo_empresa(this);" class='form-control'>
-                </div>
-                <div class="col-lg-3 ">
-                    <strong>CODIGO DE FABRICA</strong>
-                    <input type="text" name="codigo_fabric" id="codigo_fabric" onchange="codigo_fabrica(this);" class='form-control'>
-                </div>
-            </div>
-            <div class="modal-body">
-                <div class="col-lg-2">
-                    <strong>GRUPO</strong> <strong style="color: red;">*</strong>
-                    <select name="id_bien" id="id_bien" class="form-control" required>
-                        <option value="">Seleccionar...</option>
-                        @foreach($bienes as $bien)
-                            <option value="{{$bien->id}}">{{$bien->nombre}}</option>
-                        @endforeach
-                    </select>
-                </div>
-                
-                <div class="col-lg-6">
-                    <strong>ARTICULO</strong> <strong style="color: rgb(255, 0, 0);">*</strong>
-                    <select name="id_articulo" id="id_articulo" class="form-control" required>
-                        <option value="">Seleccionar...</option>     
-                    </select>
-                </div>                   
-                    
                 <div class="col-lg-2 ">
+                    <strong>P. VENTA </strong> <strong style="color: red;">*</strong>
+                    <input type="number" name="p_venta" id="p_venta" step="0.01" onkeyup="p_ventas(this);" class='form-control' required>
+                </div>
+                <div class="col-lg-2">
                     <strong>CANTIDAD </strong> <strong style="color: red;">*</strong>
                     <input type="number" name="cantidad" id="cantidad" onkeyup="cantidad(this);" class='form-control' required>
                 </div>
-
-                <div class="col-lg-1">
-                    <strong>Disponible </strong>
-                    <input type="number" name="cantidad_m" id="cantidad_m" class='form-control' required readonly>
-                </div>
+                <div class="col-lg-2">
+                    <strong>SUB TOTAL </strong> <strong style="color: red;">*</strong>
+                    <input type="number" name="sub_total" id="sub_total" step="0.01" class='form-control' required readonly>
+                </div>   
                 
             </div>
-           
-            <input type="hidden" name="p_venta" id="p_venta" onkeyup="p_ventas(this);" class='form-control' required>
-            <input type="hidden" name="sub_total" id="sub_total" step="0.01" class='form-control' required readonly>
+        
                 
                 <div class="col-lg-1"></div>
                 <div class="col-lg-2"><br>
@@ -94,13 +76,7 @@ use App\Models\Cliente;
             <form class="form-horizontal crearservicio" role="form" method="POST" action="{{('crearsalida ')}}" autocomplete="off">
                 {{ csrf_field() }}
                 <div class="modal-content panel-primary">
-                    <div class="modal-body">
-                        <div class="col-lg-1"></div>
-                        <div class="col-lg-10">
-                            <strong>SERVICIO </strong> <strong style="color: red;">*</strong>
-                            <input type="text" name="detalle" id="detalle" onkeyup="mayus(this);" class='form-control' required>
-                        </div>
-                    </div>
+                   
                     <div class="modal-body">
                         <div class="col-lg-2 ">
                             <strong>DOCUMENTO</strong>
@@ -163,9 +139,10 @@ use App\Models\Cliente;
                 <table class="table table-bordered table-hover table-striped table-sm">
                     <thead>
                         <tr class="col-auto bg-secondary">
-                            <th>GRUPO</th> 
-                            <th>ARTICULO</th>
+                            <th>SERVICIO</th> 
                             <th width=15%>CANTIDAD</th>
+                            <th width=15%>P. VENTA</th>
+                            <th width=15%>SUB TOTAL</th>
                             <th width=10%>Borrar</th>
                             
                         </tr>
@@ -178,7 +155,7 @@ use App\Models\Cliente;
                     <div class="col-lg-5"></div>
                     <div class="col-lg-2"> 
                         <strong>Total(Bs.)</strong>
-                        <input type="number" name="total" id="total" value="" step="0.01" class='form-control' style="text-align: center" required>
+                        <input type="number" name="total" id="total" value="" step="0.01" class='form-control' style="text-align: center" required readonly>
                     </div>
                 </div>
                 <div class="row">
@@ -189,7 +166,7 @@ use App\Models\Cliente;
                     </div>
                 </div>
                 <div class="modal-dialog modal-lg">
-                    <div class="modal-content panel-primary"  >
+                    <div class="modal-content panel-primary" id="bguardar" style="display: none" >
                         <input type="hidden" name="tipo" value="1" class='form-control'>
                         <input type="hidden" name="id_cliente" id="id_cliente" class='form-control'>
                         <input  type="submit" name="ejecutar" class='float-right btn btn-primary' value="Guardar">
@@ -345,89 +322,21 @@ function nit_cli(id) {
     function mayus(e) {
         e.value = e.value.toUpperCase();
     }
-    
-
-    $("#id_bien").change(function()
-        {
-            id=this.value;  
-            $("#id_articulo").empty();
-            url = '{{ asset("/index.php/encontrararticulos")}}/' + id;
-            $.getJSON(url, null, function(data) {
-                if (data.length > 0) 
-                {
-                    $('#id_articulo').append('<option value="">Seleccionar...</option>');
-                    $.each(data, function(field, e) 
-                    {
-                        $('#id_articulo').append('<option value="'+e.id+'">'+e.nombre+"  ("+e.marca+')</option>');
-                    });
-                } 
-            });
-        });
-
-    $("#id_articulo").change(function()
-        {
-            id=this.value;  
-            $("#cantidad_m").empty();
-            $("#p_venta").empty();
-            url = '{{ asset("/index.php/encontrararticulo")}}/' + id;
-            $.getJSON(url, null, function(data) {
-                if (data.length > 0) 
-                {
-                    $.each(data, function(field, e) 
-                    {
-                        $('#cantidad_m').val(e.cantidad-e.reservado);
-                        $('#p_venta').val(0);
-                    });
-                }
-            });
-        });
 
     function cantidad(id) {
         id = id.value*1;
-        url = '{{ asset("/index.php/encontrararticulo")}}/' + $("#id_articulo").val();
-        $.getJSON(url, null, function(data) {
-            if (data.length > 0) 
-            {
-                $.each(data, function(field, e) 
-                {
-                    if (id>(e.cantidad-e.reservado)) {
-                        $("#cantidad").val(e.cantidad-e.reservado);
-                        $("#sub_total").empty();
-                        $("#sub_total").val(e.p_venta*$("#cantidad").val());
-                        alert("LA CANTIDAD INTRODUCIDA ES MAYOR AL STOCK DEL ARTICULO");
-                    } else {
-                        $("#sub_total").empty();
-                        $("#sub_total").val($("#p_venta").val()*id);
-                    }
-                    
-                });
-            }
-        });
+        $("#sub_total").empty();
+        $("#sub_total").val($("#p_venta").val()*id);
+     
     }
 
 
     $("#cantidad").change(function()
     {
         id = this.value*1;
-        url = '{{ asset("/index.php/encontrararticulo")}}/' + $("#id_articulo").val();
-        
-        $.getJSON(url, null, function(data) {
-            if (data.length > 0) 
-            {
-                $.each(data, function(field, e) 
-                {
-                    if (id>(e.cantidad-e.reservado)) {
-                        $("#cantidad").val(e.cantidad-e.reservado);
-                        $("#sub_total").empty();
-                        $("#sub_total").val($("#p_venta").val()*$("#cantidad").val());
-                        alert("LA CANTIDAD INTRODUCIDA ES MAYOR AL STOCK DEL PRODUCTO");
-                    } else {
-                        $("#sub_total").empty();
-                        $("#sub_total").val($("#p_venta").val()*id);
-                    }
-                });
-            }
-        });
+        $("#sub_total").empty();
+        $("#sub_total").val($("#p_venta").val()*id);
+                
     });
 
 
@@ -463,122 +372,6 @@ function nit_cli(id) {
         });
     });
 
-    function codigo_barra(codigo) {
-        codigo = codigo.value*1;
-        url = '{{ asset("/index.php/encontrararticulocodigobarra")}}/' + codigo;
-        $.getJSON(url, null, function(data) {
-            if (data.length > 0) 
-            {
-                $("#cantidad_m").empty();
-                $("#p_venta").empty();
-                $.each(data, function(field, e) 
-                {
-                    url = '{{ asset("/index.php/editarbien")}}/' + e.id_bien;
-                    $.getJSON(url, null, function(data) {
-                        if (data.length > 0) 
-                        {
-                            $.each(data, function(field, f) 
-                            {
-                                $("#cantidad_m").val(e.cantidad-e.reservado);
-                                $('#id_bien').val(e.id_bien);
-                                $('#id_articulo').empty();
-                                $('#id_articulo').append('<option value="'+e.id+'">'+e.nombre+"  ("+e.marca+')</option>');
-                                $('#p_venta').val(0);
-                            });
-                        }
-                    });
-                });
-            }
-        });
-    }
-
-    function codigo_empresa(codigo) {
-        codigo = codigo.value;
-        t = codigo.length;
-        inicio = 0,p=0,p2=0;
-        for (i = 0; i < t; i++) {
-            if(codigo.charAt(i) == '/') {
-                p = codigo.slice(inicio,i)
-                inicio = i+1;
-                p2 = codigo.slice(inicio,t)
-                break;
-            }
-        }
-        if (inicio > 0) {
-            url = '{{ asset("/index.php/encontrararticulocodigoempresas")}}/'+p+'/'+p2;
-        }
-        else {
-            url = '{{ asset("/index.php/encontrararticulocodigoempresa")}}/' + codigo;
-        }
-        $.getJSON(url, null, function(data) {
-            if (data.length > 0) 
-            {
-                $("#cantidad_m").empty();
-                $("#p_venta").empty();
-                $.each(data, function(field, e) 
-                {
-                    url = '{{ asset("/index.php/editarbien")}}/' + e.id_bien;
-                    $.getJSON(url, null, function(data) {
-                        if (data.length > 0) 
-                        {
-                            $.each(data, function(field, f) 
-                            {
-                                $("#cantidad_m").val(e.cantidad-e.reservado);
-                                $('#id_bien').val(e.id_bien);
-                                $('#id_articulo').empty();
-                                $('#id_articulo').append('<option value="'+e.id+'">'+e.nombre+"  ("+e.marca+')</option>');
-                                $('#p_venta').val(0);
-                            });
-                        }
-                    });
-                });
-            }
-        });
-    }
-
-    function codigo_fabrica(codigo) {
-        codigo = codigo.value;
-        t = codigo.length;
-        inicio = 0,p=0,p2=0;
-        for (i = 0; i < t; i++) {
-            if(codigo.charAt(i) == '/') {
-                p = codigo.slice(inicio,i)
-                inicio = i+1;
-                p2 = codigo.slice(inicio,t)
-                break;
-            }
-        }
-        if (inicio > 0) {
-            url = '{{ asset("/index.php/encontrararticulocodigofabricas")}}/'+p+'/'+p2;
-        }
-        else {
-            url = '{{ asset("/index.php/encontrararticulocodigofabrica")}}/' + codigo;
-        }
-        $.getJSON(url, null, function(data) {
-            if (data.length > 0) 
-            {
-                $("#cantidad_m").empty();
-                $("#p_venta").empty();
-                $.each(data, function(field, e) 
-                {
-                    url = '{{ asset("/index.php/editarbien")}}/' + e.id_bien;
-                    $.getJSON(url, null, function(data) {
-                        if (data.length > 0) 
-                        {
-                            $.each(data, function(field, f) 
-                            {
-                                $("#cantidad_m").val(e.cantidad-e.reservado);
-                                $('#id_bien').val(e.id_bien);
-                                $('#id_articulo').empty();
-                                $('#id_articulo').append('<option value="'+e.id+'">'+e.nombre+"  ("+e.marca+')</option>');
-                                $('#p_venta').val(0);
-                            });
-                        }
-                    });
-                });
-            }
-        });
-    }
 
     $("#sccredito").change(function()
     {
@@ -612,64 +405,72 @@ function nit_cli(id) {
     function insertarTabla(item/*objeto*/, index/*posicion*/) {
     
       var html =  "<tr>"+
-                  "<td><input type='hidden' name='id_bien[]' id='id_bien' class='form-control' value='"+item.id_bien+"'>"+item.biens+"</td>"+
-                  "<td><input type='hidden' name='id_articulo[]' id='id_articulo' class='form-control' value='"+item.id_articulo+"' required>"+item.articulos+" </td>" +                  
-                  "<td><input type='hidden' name='cantidad[]' id='cantidad' class='form-control' value='"+item.cantidad+"'>"+item.cantidad+"</td>" +
-                  "<input type='hidden' name='p_venta[]' id='p_venta' class='form-control' value='"+item.p_venta+"'>"+
-                  "<input type='hidden' name='sub_total[]' id='sub_total' class='form-control' value='"+item.sub_total+"'>"+
-                  "<td><b onclick=\"eliminarSeleccion("+index+")\" class=\"btn btn-danger\" > <i class=\"fa fa-trash-o\"></i> </b></td>"+
-                  "</tr>"
-                  "<tr>"+
-                  "<td><input type='number' name='total' id='total' class='form-control' value='"+item.total+"'>"+item.total+"</td>"+
-                  "</tr>";
+        "<td><input type='hidden' name='detalle[]' id='detalle' class='form-control' value='"+item.detalle+"'>"+item.detalle+"</td>"+
+        "<input type='hidden' name='id_bien[]' id='id_bien' class='form-control' value='"+item.id_bien+"'>"+
+        "<input type='hidden' name='id_articulo[]' id='id_articulo' class='form-control' value='"+item.id_articulo+"'>"+                  
+        "<td><input type='hidden' name='cantidad[]' id='cantidad' class='form-control' value='"+item.cantidad+"'>"+item.cantidad+"</td>"+
+        "<td><input type='hidden' name='p_venta[]' id='p_venta' class='form-control' value='"+item.p_venta+"'>"+item.p_venta+"</td>"+
+        "<td><input type='hidden' name='sub_total[]' id='sub_total' class='form-control' value='"+item.sub_total+"'>"+item.sub_total+"</td>"+
+        "<td><b onclick=\"eliminarSeleccion("+index+")\" class=\"btn btn-danger\" > <i class=\"fa fa-trash-o\"></i> </b></td>"+
+        "</tr>"
+        "<tr>"+
+        "<td><input type='number' name='total' id='total' class='form-control' value='"+item.total+"'>"+item.total+"</td>"+
+        "</tr>";
        
        $('#cuerpo').append(html);   
     }
 
 
     function eliminarSeleccion(id){
+        to -= lista[id].sub_total;
+        $('#total').val(to);
         lista.splice(id, 1);
         $('#cuerpo').html("");
+        if(lista.length <= 0)
+            $('#bguardar').hide();
+        lista.forEach(insertarTabla);
     }
 
     function insertar(){
+        to += $('#sub_total').val()*1;
+        $('#total').val(to);
 
-      var id_bien = $('#id_bien').val();
-      var id_articulo = $('#id_articulo').val();
-      var cantidad = $('#cantidad').val();      
-      var p_venta = $('#p_venta').val();
-      var sub_total = $('#sub_total').val();
-  
-      var biens = $('#id_bien option:selected').text();
-      var articulos = $('#id_articulo option:selected').text();
-  
-      
-      var ingreso = {
-          id_bien: id_bien,
-          biens: biens,
-          id_articulo: id_articulo,
-          articulos: articulos,
-          cantidad: cantidad,
-          p_venta: p_venta,
-          sub_total: sub_total,
-      };
+        var id_bien = $('#id_bien').val();
+        var id_articulo = $('#id_articulo').val();
+        var detalle = $('#detalle').val();
+        var cantidad = $('#cantidad').val();      
+        var p_venta = $('#p_venta').val();
+        var sub_total = $('#sub_total').val();
     
-      lista.push(ingreso);
-      
-      
-      $('#cuerpo').html("");
-      lista.forEach(insertarTabla);
-  
-      $('#id_bien').val("");
-      $('#id_articulo').val("");
-      $('#cantidad').val("");
-      $('#cantidad_m').val("");
-      $('#sub_total').val("");
-      $('#p_venta').val("");
-      $('#codigo_empre').val("");
-      $('#codigo_fabric').val("");
-      
-      $('#bien').focus();
+        var biens = $('#id_bien option:selected').text();
+        var articulos = $('#id_articulo option:selected').text();
+    
+        
+        var ingreso = {
+            id_bien: id_bien,
+            biens: biens,
+            id_articulo: id_articulo,
+            detalle: detalle,
+            articulos: articulos,
+            cantidad: cantidad,
+            p_venta: p_venta,
+            sub_total: sub_total,
+        };
+        
+        lista.push(ingreso);
+        if(lista.length > 0)
+            $('#bguardar').show();
+        
+        
+        $('#cuerpo').html("");
+        lista.forEach(insertarTabla);
+        
+        $('#detalle').val("");
+        $('#cantidad').val("");
+        $('#sub_total').val("");
+        $('#p_venta').val("");
+        
+        $('#bien').focus();
     }
    
   

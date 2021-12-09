@@ -122,7 +122,7 @@
             </div>
                       
             <div class="col-auto p-5 text-center">
-            <form class="form-horizontal" role="form" method="POST" action="{{('crearcotizacion')}}" autocomplete="off">
+            <form class="form-horizontal preguntarcoti" role="form" method="POST" action="{{('crearcotizacion')}}" autocomplete="off">
                 {{ csrf_field() }}
                 <div class="modal-content panel-primary">
                     <div class="modal-body">
@@ -204,6 +204,25 @@
 @section('js')
 
 <script>
+
+$('.preguntarcoti').submit(function(e){
+        e.preventDefault();
+
+        Swal.fire({
+        title: 'Estas Seguro?',
+        text: "Estas a punto de crear una Cotizacion!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Crear Cotizacion',
+        cancelButtonText: 'Cancelar',
+        }).then((result) => {
+        if (result.isConfirmed) {
+            this.submit();
+        }
+        })
+    });
 
 $(document).ready( function () {
         $('#datatablecotizacion').DataTable({
@@ -507,13 +526,14 @@ $(document).ready( function () {
     function insertarTabla(item, index) {
       
       var html =  "<tr>"+
-                  "<td><input type='hidden' name='id_bien[]' id='id_bien' class='form-control' value='"+item.id_bien+"'>"+item.biens+"</td>"+
-                  "<td><input type='hidden' name='id_articulo[]' id='id_articulo' class='form-control' value='"+item.id_articulo+"'>"+item.articulos+" </td>" +                  
-                  "<td><input type='hidden' name='cantidad[]' id='cantidad' class='form-control' value='"+item.cantidad+"'>"+item.cantidad+"</td>" +
-                  "<td><input type='hidden' name='p_venta[]' id='p_venta' class='form-control' value='"+item.p_venta+"'>"+item.p_venta+"</td>" +
-                  "<td><input type='hidden' name='sub_total[]' id='sub_total' class='form-control' value='"+item.sub_total+"'>"+item.sub_total+"</td>" +
-                  "<td><b onclick=\"eliminarSeleccion("+index+")\" class=\"btn btn-danger\" > <i class=\"fa fa-trash-o\"></i> </b></td>"+
-                  "</tr>";
+        "<input type='hidden' name='detalle[]' id='detalle'>"+
+        "<td><input type='hidden' name='id_bien[]' id='id_bien' class='form-control' value='"+item.id_bien+"'>"+item.biens+"</td>"+
+        "<td><input type='hidden' name='id_articulo[]' id='id_articulo' class='form-control' value='"+item.id_articulo+"'>"+item.articulos+" </td>" +                  
+        "<td><input type='hidden' name='cantidad[]' id='cantidad' class='form-control' value='"+item.cantidad+"'>"+item.cantidad+"</td>" +
+        "<td><input type='hidden' name='p_venta[]' id='p_venta' class='form-control' value='"+item.p_venta+"'>"+item.p_venta+"</td>" +
+        "<td><input type='hidden' name='sub_total[]' id='sub_total' class='form-control' value='"+item.sub_total+"'>"+item.sub_total+"</td>" +
+        "<td><b onclick=\"eliminarSeleccion("+index+")\" class=\"btn btn-danger\" > <i class=\"fa fa-trash-o\"></i> </b></td>"+
+        "</tr>";
        
        $('#cuerpo').append(html);
        

@@ -62,9 +62,12 @@ class SalidaController extends Controller
         ->select("articulos.nombre as nombre_articulo","articulos.marca","articulos.cantidad","biens.nombre as nombre_bien","salidas.*",)
         ->orderBy('salidas.fecha','Desc')
         ->get();
+        $salidas=Salida::where('identificador', '=', $id)
+        ->orderBy('id','Asc')
+        ->get();
         $cantidad=Salida::where('identificador', $id)->count();
         if ($salida->detalle != null ) {
-            return view('/Servicios.ServicioDetallado',compact('cantidad','bienes','articulos','sql','salida','banco' ));
+            return view('/Servicios.ServicioDetallado',compact('cantidad','bienes','articulos','sql','salida','banco','salidas' ));
         }
         return view('/Salidas.SalidaDetallada',compact('cantidad','bienes','articulos','sql','salida','banco' ));
     }
@@ -81,46 +84,6 @@ class SalidaController extends Controller
         $credito = new Credito();
         $credito->total = 0;
         $credito->saldo = 0;
-        if (!(is_countable($request->id_bien)?$request->id_bien:[]) ) {
-            
-            $salida=new Salida();
-            $salida->scfactura = $request->scfactura;
-            $salida->num_factura = $request->num_factura;
-            $salida->sccredito = $request->sccredito;
-            $salida->id_banco = $request->banco;
-            $salida->fecha = $request->fecha;
-            $salida->total = $request->total;
-            $salida->descuento = $request->descuento;
-            $salida->codigo_cli = $request->codigo_cli;
-            $salida->nit_cliente = $request->nit_cliente;
-            $salida->id_cliente = $request->id_cliente;
-            $salida->cliente = $request->cliente;
-            $salida->detalle = $request->detalle;
-            $salida->identificador = ($ide->id)+1;
-            $salida->num_venta = ($ide->num_venta)+1;
-            $salida->codigo_venta = $cv;
-            $salida->estado = true;
-            $credito->identificador = ($ide->id)+1;
-
-            $salida->id_bien=0;
-            $salida->id_articulo=0;
-            $salida->cantidad=0;
-            $salida->sub_total=0;
-            $salida->p_venta=0;
-            $credito->total = $request->total;
-            $credito->saldo = $request->total;
-            
-            $salida->save();
-
-            if ($request->reserva == 1) {
-                $reserva = Reserva::where('identificador',$request->identificador_reserva)->first();
-                $reserva->codigo_reserva = $reserva->codigo_reserva." "."V";
-                $reserva->save();
-                
-            }
-
-        }
-        else {
             for($i=0;$i<count($request->id_bien);$i++)
             {
 
@@ -136,7 +99,6 @@ class SalidaController extends Controller
                 $salida->nit_cliente=$request->nit_cliente;
                 $salida->id_cliente=$request->id_cliente;
                 $salida->cliente=$request->cliente;
-                $salida->detalle=$request->detalle;
                 $salida->identificador = ($ide->id)+1;
                 $salida->num_venta = ($ide->num_venta)+1;
                 $salida->codigo_venta = $cv;
@@ -170,12 +132,12 @@ class SalidaController extends Controller
                 } else {
                     $salida->costo_s = $c * $articulo->costo;
                 }   
-               
-                
+            
                 $salida->id_bien=$request->id_bien[$i];
                 $salida->id_articulo=$request->id_articulo[$i];
                 $salida->cantidad=$request->cantidad[$i];
                 $salida->sub_total=$request->sub_total[$i];
+                $salida->detalle=$request->detalle[$i];
                 $salida->p_venta=$request->p_venta[$i];
                 $credito->total = $request->total-$request->descuento;
                 $credito->saldo = $request->total-$request->descuento;
@@ -185,16 +147,10 @@ class SalidaController extends Controller
                     $reserva = Reserva::where('identificador',$request->identificador_reserva)->where('id_articulo',$request->id_articulo[$i])->first();
                     $reserva->codigo_reserva = $reserva->codigo_reserva." "."V";
                     $reserva->save();
-                    
                 }
-                
                 $salida->save();
                 $articulo->save();
-
-            
             }
-        }
-
         if ($request->sccredito == 1) {
             $credito->fecha = $request->fecha;
             $credito->id_cliente = $request->id_cliente;
@@ -238,7 +194,6 @@ class SalidaController extends Controller
             
             
         }
-        
 
         $salida = Salida::latest('id')->first();
         $cliente = Cliente::where('ci', '=', $request->nit_cliente)->get(); 
@@ -249,10 +204,14 @@ class SalidaController extends Controller
         ->orderBy('salidas.id','Asc')
         ->get();
 
+        $sql2=Salida::where('identificador', '=', $salida->identificador)
+        ->orderBy('id')
+        ->get();
+
         if ($request->tipo == 1) {
-            $pdf = PDF::loadView('/Servicios.ReporteServicio', compact('salida','sql','cliente','request'));
+            $pdf = PDF::loadView('/Servicios.ReporteServicio', compact('salida','sql2','cliente'));
         } else {
-            $pdf = PDF::loadView('/Salidas.ReporteSalida', compact('salida','sql','cliente','request'));
+            $pdf = PDF::loadView('/Salidas.ReporteSalida', compact('salida','sql','cliente'));
         }
        
         return $pdf->setPaper('a4')->stream('reporte.pdf');
@@ -273,9 +232,12 @@ class SalidaController extends Controller
         ->select("articulos.nombre as nombre_articulo","articulos.*","biens.nombre as nombre_bien","salidas.*",)
         ->orderBy('salidas.id','asc')
         ->get();
+        $sql2=Salida::where('identificador', '=', $identificador)
+        ->orderBy('id')
+        ->get();
 
         if ($salida->detalle != null ) {
-            $pdf = PDF::loadView('/Servicios.ReporteServicio', compact('salida','sql','cliente'));
+            $pdf = PDF::loadView('/Servicios.ReporteServicio', compact('salida','sql2','cliente'));
         }
         else {
             $pdf = PDF::loadView('/Salidas.ReporteSalida', compact('salida','sql','cliente'));
@@ -378,11 +340,9 @@ class SalidaController extends Controller
             }
         }
         $sql = $sql->sortBy('id')->sortBy('fecha');
-        $pdf = PDF::loadView('/Reportes.VerReportesSalida',compact('sql' ));
+        $pdf = PDF::loadView('/Reportes.VerReportesSalida2',compact('sql','fi','ff'));
         return $pdf->setPaper('a4')->stream('reportesalida.pdf');
        
-
-        //return view('/Reportes.VerReportes',compact('salida','sql' ));
     }
 
     public function ReporteFechaSalidaForm()
@@ -421,11 +381,15 @@ class SalidaController extends Controller
         $salida = Salida::where('identificador',$identificador)->first();
         $salidas = Salida::where('identificador',$identificador)->get();
         foreach ($salidas as $salida) {
-            $costo = $salida->costo_s / $salida->cantidad;
-            $peps = peps::where('costo',$costo)->Where('id_articulo',$salida->id_articulo)
-            ->orderBy('id')->first();
-            $peps->cantidad += $salida->cantidad;
-            $peps->save();
+            if ($salida->cantidad != 0) {
+                $costo = $salida->costo_s / $salida->cantidad;
+                $peps = peps::where('costo',$costo)->Where('id_articulo',$salida->id_articulo)
+                ->orderBy('id')->first();
+                if ($peps != null ) {
+                    $peps->cantidad += $salida->cantidad;
+                    $peps->save();
+                }
+            }
         }
         if ($salida->sccredito == 0) {
             $caja = Caja::where('num_documento',$salida->codigo_venta)->first();
@@ -446,6 +410,11 @@ class SalidaController extends Controller
         }
         foreach ($salidas as $salida) {
             $salida->estado = false;
+            $salida->costo_s = 0;
+            $salida->p_venta = 0;
+            $salida->sub_total = 0;
+            $salida->total = 0;
+            $salida->descuento = 0;
             $salida->save();
         }
         

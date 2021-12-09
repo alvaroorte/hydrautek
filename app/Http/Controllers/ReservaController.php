@@ -60,46 +60,23 @@ class ReservaController extends Controller
             $saldo += $pago->monto;
         }
         $saldo = $reserva->total-$reserva->descuento-$saldo;
-        //return $sql2;
-        return view('/Reservas.ReservaDetallada',compact('cantidad','sql2','reserva','bienes','articulos','sql','id','clientes', 'bancos', 'saldo' ));
+        $sql3 = Reserva::where('identificador', '=', $reserva->identificador)
+        ->orderBy('id','Asc')
+        ->get();
+        return view('/Reservas.ReservaDetallada',compact('cantidad','sql2','sql3','reserva','bienes','articulos','sql','id','clientes', 'bancos', 'saldo' ));
     }
 
    
     public function CrearReserva(Request $request)
     {
         $ide = Reserva::latest('id')->first();
-        if (!(is_countable($request->id_bien)?$request->id_bien:[]) ) {
-            $co = Reserva::latest('id')->first();
-            $reserva=new Reserva();
-            $reserva->fecha=$request->fecha;
-            $reserva->codigo_reserva="R-0".($ide->num_reserva+1);
-            $reserva->cliente=$request->cliente;
-            $reserva->detalle=$request->detalle;
-            $reserva->nit_cliente=$request->nit_cliente;
-            $reserva->id_cliente=$request->id_cliente;
-            $reserva->identificador = ($ide->id)+1;
-            $reserva->num_reserva = ($ide->num_reserva)+1;
-            $reserva->id_bien=0;
-            $reserva->id_articulo=0;
-            $reserva->cantidad=0;
-            $reserva->p_venta=0;
-            $reserva->sub_total=0;
-            $reserva->estado = true;
-            $reserva->total=$request->total;
-            $reserva->plazo=$request->plazo;
-            $reserva->saldo=$request->total-$request->descuento;
-            $reserva->descuento=$request->descuento;
-            
-            $reserva->save();
-        }
-        else {
             for($i=0;$i<count($request->id_bien);$i++)
             {
                 $reserva=new Reserva();
                 $reserva->fecha=$request->fecha;
                 $reserva->codigo_reserva="R-0".($ide->num_reserva+1);
                 $reserva->cliente=$request->cliente;
-                $reserva->detalle=$request->detalle;
+                $reserva->detalle=$request->detalle[$i];
                 $reserva->nit_cliente=$request->nit_cliente;
                 $reserva->id_cliente=$request->id_cliente;
                 $reserva->identificador = ($ide->id)+1;
@@ -122,7 +99,7 @@ class ReservaController extends Controller
                 $articulo->save();
 
             }
-        }
+        
         
         $reserva = Reserva::latest('id')->first();
         $plazo = date("Y-m-d", strtotime($reserva->fecha.'+ '.$reserva->plazo.' days'));
@@ -132,8 +109,11 @@ class ReservaController extends Controller
         ->select("articulos.nombre as nombre_articulo","articulos.*","biens.nombre as nombre_bien","reservas.*",)
         ->orderBy('reservas.id','Asc')
         ->get();
+        $sql2 = Reserva::where('identificador', '=', $reserva->identificador)
+        ->orderBy('id','Asc')
+        ->get();
         
-        $pdf = PDF::loadView('/Reservas.ReporteReserva', compact('reserva','sql','request','plazo'));
+        $pdf = PDF::loadView('/Reservas.ReporteReserva', compact('reserva','sql','sql2','plazo'));
        
         return $pdf->setPaper('a4')->stream('reserva.pdf');
     

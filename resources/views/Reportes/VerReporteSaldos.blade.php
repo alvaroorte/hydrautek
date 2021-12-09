@@ -22,7 +22,7 @@
         header {
             left: 0cm;
             right: 0cm;
-            height: 1.3cm;
+            height: 1.8cm;
             background-color: #d33c3c;
             color: white;
             line-height: 35px;
@@ -44,21 +44,24 @@
     <header>
         <div class="card">
             <a href="{{url('reportegeneralsaldos')}}" class="config">
-              <img src="{{asset('assets/dashboard/images/Captura2.png')}}" alt="..." class="img-circle" width="100" height="54">
+              <img src="{{asset('assets/dashboard/images/HC2.png')}}" alt="..." class="img-circle" width="100" height="54">
             </a>
-            <div class="car-body" style="text-align: center" >
-              <span><b>HYDRAUTEK</b></span>
+            <div class="car-body" style="text-align: right" >
+                <p style="line-height: 120%" >Correas y Manguera Hidraulicas <br>
+                Km. 3 1/2 Av. villazon #4259 Sacaba <br>
+                Telf: 79949061 - 4019942 <br>
+                www.hydrautekbolivia.com</p>
             </div>
           </div>
     </header>
     <main><br>
-            <h4 style="text-align: center">HYDRAUTEK</h4>
+            <h4 style="text-align: center">HYDRAUCRUZ</h4>
             <h5 style="text-align: center"> Arqueo de Caja</h5>
             <br>
         
         <table class="table table-bordered table-hover table-striped table-sm">
             <thead style="background:#d33c3c;color:#ffffff;text-align:center">
-                <tr style="background:#ffffff">
+                <tr style="background:#ffffff;color:#1b1919;text-align:center">
                     <th colspan="2">Del {{\Carbon\Carbon::parse($fi)->format('d-m-Y')}} al {{\Carbon\Carbon::parse($ff)->format('d-m-Y')}} </th>
                 </tr>
                 <tr>
@@ -86,8 +89,8 @@
         <table class="table table-bordered table-hover table-striped table-sm">
             <thead style="background:#945e5e;color:#ffffff;text-align:center">
                 <tr>
-                    <th width="70%"><b> Saldo a favor de Hydrautek desde {{\Carbon\Carbon::parse($fii->fecha)->format('d-m-Y')}} hasta {{\Carbon\Carbon::parse($ff)->format('d-m-Y')}}</b></th>
-                    <th style="text-align: right">{{number_format($tb+$efectivo->saldo,2)}}</th>
+                    <th width="70%"><b> Saldo a favor de Hydraucruz desde {{\Carbon\Carbon::parse($fii->fecha)->format('d-m-Y')}} hasta {{\Carbon\Carbon::parse($ff)->format('d-m-Y')}}</b></th>
+                    <th style="text-align: right">{{number_format($tb+$efectivo,2)}}</th>
                 </tr>
             </thead>
           </table><br>
@@ -104,7 +107,7 @@
                 <tr>
                     <td>Al {{\Carbon\Carbon::parse($ff)->format('d-m-Y')}}</td>
                     <td>EFECTIVO CAJA</td>
-                    <td style="text-align: right" >{{number_format($efectivo->saldo,2)}}</td>
+                    <td style="text-align: right" >{{number_format($efectivo,2)}}</td>
                 </tr>
                 @foreach ($bancos as $banco)
                     <tr>
@@ -115,7 +118,7 @@
                 @endforeach
                 <tr>
                     <td style="text-align: right" colspan="2" >TOTAL:</td>
-                    <td style="text-align: right">{{number_format($tb+$efectivo->saldo,2)}}</td>
+                    <td style="text-align: right">{{number_format($tb+$efectivo,2)}}</td>
                 </tr>
             </tbody>
           </table><br><br>
@@ -143,7 +146,7 @@
           </table>    
     </main>
     <footer>
-        <p><strong>HYDRAUTEK</strong></p>
+        <p><strong>HYDRAUCRUZ</strong></p>
     </footer>
 </body>
 </html>

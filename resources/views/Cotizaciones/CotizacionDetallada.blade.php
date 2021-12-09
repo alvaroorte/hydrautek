@@ -100,37 +100,25 @@
                                 </tbody>
                             </table>   
                         @else
-                            <table id="" class="table table-bordered table-hover table-striped table-sm">
-                                <thead style="background:#6d6d6d;color:#ffffff;text-align:center">
-                                    <tr>
-                                        <th width=10%>N°</th>
-                                        <th>ARTICULOS A UTILIZAR</th>
-                                        <th width=15%>CANTIDAD</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @php $i = 1;  @endphp
-                                    @foreach($sql as $cotizacion)
-                                    <tr class="gradeC">
-                                        <td style="text-align: center;"><?php echo $i++; ?></td>
-                                        <td style="text-align: center;">{{$cotizacion->nombre_bien}}, {{$cotizacion->nombre_articulo}} ({{$cotizacion->marca}})</td>
-                                        <td style="text-align: center;">{{$cotizacion->cantidad}}</td> 
-                                    </tr>
-                                    @endforeach
-                                </tbody>
-                            </table>
+                        
                             <table id="" class="table table-bordered table-hover table-striped table-sm">
                                 <thead style="background:#6d6d6d;color:#ffffff;text-align:center">
                                     <tr>
                                         <th>SERVICIO</th>
-                                        <th width=10%>TOTAL(Bs.)</th>
+                                        <th width=12%>CANTIDAD</th>
+                                        <th width=12%>P. VENTA</th>
+                                        <th width=12%>SUB TOTAL</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <td style="text-align: center; font-size: 14pt;">{{$cotizacion->detalle}}</td>
-                                        <td style="text-align: center;"> <h5> {{$cotizacion->total}} </h5></td>
-                                    </tr>
+                                    @foreach ($sql2 as $coti)
+                                        <tr>
+                                            <td style="text-align: center">{{$coti->detalle}}</td>
+                                            <td style="text-align: center">{{$coti->cantidad}}</td>
+                                            <td style="text-align: center">{{$coti->p_venta}}</td>
+                                            <td style="text-align: center">{{$coti->sub_total}}</td>
+                                        </tr>
+                                    @endforeach
                                 </tbody>
                             </table>   
                         @endif
@@ -177,7 +165,7 @@
                     <div class="col-lg-1"></div>
                     <div class="col-lg-2 ">
                         <strong>DOCUMENTO</strong>
-                        <select name="scfactura" id="scfactura" class="form-control"  onChange="mostrar_numfactura(this.value);" required>
+                        <select name="scfactura" id="scfactura" class="form-control"  required>
                             <option value="">Seleccionar...</option>
                             <option value="1">Factura</option>
                             <option value="0">Con Retension</option>
@@ -227,27 +215,28 @@
             </div>
             <table class="table table-bordered table-hover table-striped table-sm">
                 <thead>
+                @if ($cotizacion->detalle == null)
                     <tr class="col-auto bg-secondary">
                         <th width=15%>GRUPO</th> 
                         <th width=20%>ARTICULO</th>
                         <th width=15%>CANTIDAD</th>
                         <th width=15%>P. VENTA</th>
                         <th width=15%>Sub Total</th>
-                        
                     </tr>
+                @else
+                    <tr class="col-auto bg-secondary">
+                        <th>SERVICIO</th> 
+                        <th width=12%>CANTIDAD</th>
+                        <th width=12%>P. VENTA</th>
+                        <th width=12%>Sub Total</th>
+                    </tr>
+                @endif
                 </thead>
                 <tbody id="cuerpo" >
 
                 </tbody>
             </table>
-            <div class="row" id="div_servicio" style="display: none">
-                <div class="col-lg-1"></div>
-                <div class="col-lg-10"> 
-                    <strong>SERVICIO</strong>
-                    <input type="text" name="detalle" id="detalle" class='form-control' onkeyup="mayus(this);" style="text-align: center" >
-                    <input type="hidden" name="tipo" id="tipo" value="0" class='form-control'>
-                </div>
-            </div>
+            
             <div class="row" >
                 <div class="col-lg-5"></div>
                 <div class="col-lg-2"> <br>
@@ -266,6 +255,7 @@
                 <div class="modal-content panel-primary">
                     <input type="hidden" name="reserva" id="reserva" value="0" class='form-control'>
                     <input type="hidden" name="id_cliente" id="id_cliente" class='form-control'>
+                    <input type="hidden" name="tipo" id="tipo" value="0" class='form-control'>
                     <input  type="submit" name="ejecutar" class='float-right btn btn-primary' value="Guardar">
                 </div>    
             </div>
@@ -307,12 +297,11 @@
                     </div>
                     <br>
                     <div class="row">
-                        <input hidden id="id" name="id" type="text">
+                        <input hidden id="id" name="id">
                         <div class="col-lg-12">
                             <input type="submit" name="ejecutar" class='float-right btn btn-primary' value="Guardar">
                         </div>
                     </div>
-
             </form>
             </div>
         </div>
@@ -445,20 +434,20 @@
 
 </script>
 
-
-
+@if ($cotizacion->detalle == null)
 <script type="text/javascript">
     var lista = new Array();
     to = 0;
     function insertarTabla(item/*objeto*/, index/*posicion*/) {
         
       var html =  "<tr>"+
-                  "<td><input type='hidden' name='id_bien[]' id='id_bien' class='form-control' value='"+item.id_bien+"'>"+item.bien+"</td>"+
-                  "<td><input type='hidden' name='id_articulo[]' id='id_articulo' class='form-control' value='"+item.id_articulo+"'>"+item.articulo+' ('+item.marca+")</td>" +                  
-                  "<td><input type='hidden' name='cantidad[]' id='cantidad' class='form-control' value='"+item.cantidad+"'>"+item.cantidad+"</td>" +
-                  "<td><input type='hidden' name='p_venta[]' id='p_venta' class='form-control' value='"+item.p_venta+"'>"+item.p_venta+"</td>" +
-                  "<td><input type='hidden' name='sub_total[]' id='sub_total' class='form-control' value='"+item.sub_total+"'>"+item.sub_total+"</td>" +
-                  "</tr>";
+        "<td><input type='hidden' name='detalle[]' id='detalle'>"+
+        "<td><input type='hidden' name='id_bien[]' id='id_bien' class='form-control' value='"+item.id_bien+"'>"+item.bien+"</td>"+
+        "<td><input type='hidden' name='id_articulo[]' id='id_articulo' class='form-control' value='"+item.id_articulo+"'>"+item.articulo+' ('+item.marca+")</td>" +                  
+        "<td><input type='hidden' name='cantidad[]' id='cantidad' class='form-control' value='"+item.cantidad+"'>"+item.cantidad+"</td>" +
+        "<td><input type='hidden' name='p_venta[]' id='p_venta' class='form-control' value='"+item.p_venta+"'>"+item.p_venta+"</td>" +
+        "<td><input type='hidden' name='sub_total[]' id='sub_total' class='form-control' value='"+item.sub_total+"'>"+item.sub_total+"</td>" +
+        "</tr>";
        
        $('#cuerpo').append(html);   
     }
@@ -493,7 +482,6 @@
                                                             var articulo = f.nombre;
                                                             var bien = g.nombre;
                                                             var marca = f.marca;
-                                                            console.log(f.nombre,"arti");
 
                                                             var ingreso = 
                                                             {
@@ -512,26 +500,13 @@
                                                             $('#total').val(e.total);
                                                             $('#descuento').val(e.descuento);
                                                             $('#cuerpo').html("");
-                                                            if (e.detalle != null ) {
-                                                                $('#detalle').val(e.detalle);
-                                                                $('#tipo').val(1);
-                                                                $('#div_servicio').show();
-                                                            }
+                                                            console.log("entro a vp");
                                                             lista.forEach(insertarTabla);
                                                         });
                                                     } 
                                                 });
                                             });
                                         }
-                                        else {
-                                            $('#detalle').val(e.detalle);
-                                            $('#tipo').val(1);
-                                            $('#div_servicio').show();
-                                            $('#nit_cliente').val(e.nit_cliente);
-                                            $('#cliente').val(e.cliente);
-                                            $('#total').val(e.total);
-                                            $('#descuento').val(e.descuento);
-                                        } 
                                     });
                                                 
                                 });
@@ -544,6 +519,70 @@
    
   
   </script>
+@else
+<script type="text/javascript">
+    $('#tipo').val(1);
+    var lista = new Array();
+    to = 0;
+    function insertarTabla(item/*objeto*/, index/*posicion*/) {
+        
+      var html =  "<tr>"+
+        "<td><input type='hidden' name='detalle[]' id='detalle' class='form-control' value='"+item.detalle+"'>"+item.detalle+"</td>"+
+        "<input type='hidden' name='id_bien[]' id='id_bien' class='form-control' value='"+item.id_bien+"'>"+
+        "<input type='hidden' name='id_articulo[]' id='id_articulo' class='form-control' value='"+item.id_articulo+"'>" +                  
+        "<td><input type='hidden' name='cantidad[]' id='cantidad' class='form-control' value='"+item.cantidad+"'>"+item.cantidad+"</td>" +
+        "<td><input type='hidden' name='p_venta[]' id='p_venta' class='form-control' value='"+item.p_venta+"'>"+item.p_venta+"</td>" +
+        "<td><input type='hidden' name='sub_total[]' id='sub_total' class='form-control' value='"+item.sub_total+"'>"+item.sub_total+"</td>" +
+        "</tr>";
+       
+       $('#cuerpo').append(html);   
+    }
+
+    function insertar(identificador){
+      url = '{{ asset("/index.php/encontrarcotizaciones")}}/' + identificador;
+                        $.getJSON(url, null, function(data) 
+                        {
+                            if (data.length > 0) 
+                            {
+                                $.each(data, function(field, e) 
+                                {  
+                                    var id_bien = 0;
+                                    var id_articulo = 0;
+                                    var detalle = e.detalle
+                                    var cantidad = e.cantidad;
+                                    var p_venta = e.p_venta;
+                                    var sub_total = e.sub_total;
+
+                                    var ingreso = 
+                                    {
+                                        id_bien: id_bien,
+                                        id_articulo: id_articulo,
+                                        cantidad: cantidad, 
+                                        detalle: detalle,
+                                        p_venta: e.p_venta,
+                                        sub_total: sub_total,
+                                    };
+                                    lista.push(ingreso);
+                                    $('#nit_cliente').val(e.nit_cliente);
+                                    $('#cliente').val(e.cliente);
+                                    $('#total').val(e.total);
+                                    $('#descuento').val(e.descuento);
+                                    $('#cuerpo').html("");
+                                    lista.forEach(insertarTabla); 
+                                    console.log("entro a servisio");           
+                                });
+                            }
+                        });
+      
+      $('#bien').focus();
+      $("#Nuevo").modal('show')
+    }
+   
+  
+  </script>
+@endif
+
+
 
 
 

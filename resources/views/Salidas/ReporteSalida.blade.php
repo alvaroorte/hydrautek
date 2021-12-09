@@ -19,7 +19,7 @@
         header {
             left: 0cm;
             right: 0cm;
-            height: 1.3cm;
+            height: 1.8cm;
             background-color: #475161;
             color: white;
             line-height: 30px;
@@ -41,15 +41,21 @@
     <header>
       <div class="card">
         <a href="{{url('mostrarsalidas')}}" class="config">
-          <img src="{{asset('assets/dashboard/images/Captura2.png')}}" alt="..." class="img-circle" width="100" height="54">
+          <img src="{{asset('assets/dashboard/images/HC2.png')}}" alt="..." class="img-circle" width="100" height="54">
         </a>
         <div class="car-body" style="text-align: center" >
           <span>Cod. Venta: <b>{{$salida->codigo_venta}}</b></span>
         </div>
+        <div class="car-body" style="text-align: right" >
+          <p style="line-height: 120%" >Correas y Manguera Hidraulicas <br>
+          Km. 3 1/2 Av. villazon #4259 Sacaba <br>
+          Telf: 79949061 - 4019942 <br>
+          www.hydrautekbolivia.com</p>
+      </div>
       </div>
     </header>
     <main><br>
-            <h4 style="text-align: center">HYDRAUTEK</h4>
+            <h4 style="text-align: center">HYDRAUCRUZ</h4>
             <br>
             <h5 style="text-align: center"> NOTA DE REMISION</h5>
             <br>
@@ -118,7 +124,7 @@
                 <?php $i = $i+$salidas->sub_total ?>
               </tr>
               @endforeach
-              <tr><td colspan="6" ><button class='btn btn-light dim'></button> </td></tr>
+              <tr><td colspan="7" ><button class='btn btn-light dim'></button> </td></tr>
               <tr>
                 <th style="text-align: right" colspan="6" >TOTAL (Bs):</th>
                 <th st>{{$salida->total}} </th>
@@ -149,7 +155,7 @@
         
     </main>
     <footer>
-        <p><strong>HYDRAUTEK</strong></p>
+        <p><strong>HYDRAUCRUZ</strong></p>
     </footer>
 </body>
 </html>

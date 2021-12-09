@@ -356,7 +356,7 @@ class EntradaController extends Controller
             
         }
         $sql = $sql->sortBy('id')->sortBy('fecha');
-        $pdf = PDF::loadView('/Reportes.VerReportesentrada',compact('sql' ));
+        $pdf = PDF::loadView('/Reportes.VerReportesentrada',compact('sql','fi','ff' ));
         return $pdf->setPaper('a4')->stream('reporteentrada.pdf');
 
         //return view('/Reportes.VerReportes',compact('salida','sql' ));

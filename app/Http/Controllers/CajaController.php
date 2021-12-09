@@ -110,7 +110,7 @@ class CajaController extends Controller
             ->get();
         } else {
             if ($request->tipo2 == '1' ) {
-                $sql=Caja::whereBetween('fecha',[$fi,$ff])->where('importe','>',0)
+                $sql=Caja::whereBetween('fecha',[$fi,$ff])->where('importe','>',0)->where('id','!=',1)
                 ->orderBy('fecha')->orderBy('id')
                 ->get();
             } else {
@@ -120,7 +120,7 @@ class CajaController extends Controller
             }
         }
         
-        $pdf = PDF::loadView('/Reportes.VerReportesCaja',compact('sql' ));
+        $pdf = PDF::loadView('/Reportes.VerReportesCaja',compact('sql','fi','ff' ));
         return $pdf->setPaper('a4')->stream('reporteCaja.pdf');
        
 
@@ -223,9 +223,11 @@ class CajaController extends Controller
         $ff=$request->ff;
         $fii = Caja::select('fecha')->orderBy('id')->first();
 
-        $ventas = Salida::whereBetween('fecha',[$fi,$ff])->where('sccredito','!=',1)->where('estado',true)->get();
+        $ventas = Salida::whereBetween('fecha',[$fi,$ff])->where('sccredito','!=',1)->where('estado',true)->distinct('identificador')->get();
         
         $tv = $ventas->sum('total');
+        $td = $ventas->sum('descuento');
+        $tv -= $td;
         $ingresosc = Caja::whereBetween('fecha',[$fi,$ff])->where('importe','>',0)->where('id','!=',1)
         ->where('concepto', '!=','Venta al Contado')->get();
         $ingresosb = Movimiento_Banco::whereBetween('fecha',[$fi,$ff])->where('importe','>',0)
@@ -239,10 +241,11 @@ class CajaController extends Controller
         $gastos = $gastosc->concat($gastosb)->sortBy('created_at')->sortBy('fecha');
         $gastos = $gastos->sum('importe');
 
-        $efectivo = Caja::select('saldo')->latest('id')->first();
+        $efectivo = Caja::whereBetween('fecha',[$fii->fecha,$ff])->get();
+        $efectivo = $efectivo->sum('importe');
         $bancos = Banco::all();
         foreach ($bancos as $banco) {
-            $banco->saldo_inicial = Movimiento_Banco::where('id_banco',$banco->id)->get()->sum('importe');
+            $banco->saldo_inicial = Movimiento_Banco::whereBetween('fecha',[$fii->fecha,$ff])->where('id_banco',$banco->id)->get()->sum('importe');
         }
         $tb = $bancos->sum('saldo_inicial');
 

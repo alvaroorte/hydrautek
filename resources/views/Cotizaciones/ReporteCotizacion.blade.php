@@ -17,7 +17,7 @@
         header {
             left: 0cm;
             right: 0cm;
-            height: 1.3cm;
+            height: 1.8cm;
             background-color: #475161;
             color: white;
             line-height: 30px;
@@ -39,15 +39,22 @@
     <header>
         <div class="card">
             <a href="{{url('mostrarcotizaciones')}}" class="config">
-              <img src="{{asset('assets/dashboard/images/Captura2.png')}}" alt="..." class="img-circle" width="100" height="54">
+              <img src="{{asset('assets/dashboard/images/HC2.png')}}" alt="..." class="img-circle" width="100" height="54">
             </a>
             <div class="car-body" style="text-align: center" >
                 <span><b>{{$cotizacion->codigo_coti}}</b></span>
             </div>
-          </div>
+            <div class="car-body" style="text-align: right" >
+                <p style="line-height: 120%" >Correas y Manguera Hidraulicas <br>
+                Km. 3 1/2 Av. villazon #4259 Sacaba <br>
+                Telf: 79949061 - 4019942 <br>
+                www.hydrautekbolivia.com</p>
+            </div>
+
+        </div>
     </header>
     <main><br>
-            <h4 style="text-align: center">HYDRAUTEK</h4>
+            <h4 style="text-align: center">HYDRAUCRUZ</h4>
             <br>
             <table class="table table-striped text-center">
             <tr>
@@ -131,27 +138,33 @@
                 <thead style="background:#343a40;color:#D0D3D4;text-align:center">
                     <tr class="col-auto bg-secondary">
                         <th>SERVICIO</th>
+                        <th width=12%>CANTIDAD</th>
+                        <th width=12%>P. VENTA</th>
                         <th width=12%>SUB TOTAL</th>
-                        
                     </tr>
                 </thead>
                 <tbody style="text-align: center">
-                    <tr class="gradeC">
-                        <td>{{$cotizacion->detalle}}</td>
-                        <td>{{$cotizacion->total}}</td>
-                    </tr>
-                    <tr><td colspan="2"><button class='btn btn-light dim'></button> </td></tr>
+                    @foreach ($sql2 as $coti)
+                        <tr class="gradeC">
+                            <td style="text-align: center">{{$coti->detalle}}</td>
+                            <td style="text-align: center">{{$coti->cantidad}}</td>
+                            <td style="text-align: right">{{number_format($coti->p_venta,2)}}</td>
+                            <td style="text-align: right">{{number_format($coti->sub_total,2)}}</td>
+                        </tr>
+                    @endforeach
+                   
+                    <tr><td colspan="4"><button class='btn btn-light dim'></button> </td></tr>
                     <tr>
-                        <th style="text-align: right"  >TOTAL Bs:</th>
-                        <th st>{{$cotizacion->total}} </th>
+                        <th style="text-align: right" colspan="3" >TOTAL Bs:</th>
+                        <th style="text-align: right">{{number_format($cotizacion->total,2)}} </th>
                     </tr>
                     <tr>
-                        <th style="text-align: right"  >Descuento (Bs):</th>
-                        <th st>{{$cotizacion->descuento}} </th>
+                        <th style="text-align: right" colspan="3" >Descuento (Bs):</th>
+                        <th style="text-align: right">{{number_format($cotizacion->descuento,2)}} </th>
                     </tr>
                     <tr>
-                        <th style="text-align: right" >TOTAL NETO (Bs):</th>
-                        <th st>{{$cotizacion->total-$cotizacion->descuento}}</th>
+                        <th style="text-align: right" colspan="3" >TOTAL NETO (Bs):</th>
+                        <th style="text-align: right">{{number_format($cotizacion->total-$cotizacion->descuento,2)}}</th>
                     </tr>
                 </tbody>
             </table>
@@ -169,7 +182,7 @@
         
     </main>
     <footer>
-        <p><strong>HYDRAUTEK</strong></p>
+        <p><strong>HYDRAUCRUZ</strong></p>
     </footer>
 </body>
 </html>

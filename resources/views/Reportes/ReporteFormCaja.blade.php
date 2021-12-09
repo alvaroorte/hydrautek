@@ -66,10 +66,10 @@
                             <div class="col-lg-1"></div>
                             <div>
                                     <label>
-                                        <input type="radio" name="tipo2" value="1" checked> Solo Entradas
+                                        <input type="radio" name="tipo2" value="1" checked> Solo Ingreos
                                     </label><br>
                                     <label>
-                                        <input type="radio" name="tipo2" value="0"> Solo Salidas
+                                        <input type="radio" name="tipo2" value="0"> Solo Egresos
                                     </label>
                             </div>
                         </div>

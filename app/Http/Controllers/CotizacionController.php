@@ -50,38 +50,19 @@ class CotizacionController extends Controller
         ->select("articulos.nombre as nombre_articulo","articulos.*","biens.nombre as nombre_bien","cotizacions.*",)
         ->orderBy('cotizacions.id','desc')
         ->get();
+        $sql2=Cotizacion::where('identificador', $id)
+        ->orderBy('id')
+        ->get();
         $cantidad=$sql->count();
         //return $sql;
-        return view('/Cotizaciones.CotizacionDetallada',compact('cantidad','cotizacion','bienes','articulos','sql','id','clientes', 'bancos' ));
+        return view('/Cotizaciones.CotizacionDetallada',compact('cantidad','cotizacion','bienes','articulos','sql','sql2','id','clientes', 'bancos' ));
     }
 
    
     public function CrearCotizacion(Request $request)
     {
         $ide = Cotizacion::latest('id')->first();
-        if (!(is_countable($request->id_bien)?$request->id_bien:[]) ) {
-            $co = Cotizacion::latest('id')->first();
-            $cotizacion=new Cotizacion();
-            $cotizacion->fecha=$request->fecha;
-            $cotizacion->codigo_coti="COT-0".($ide->num_coti+1);
-            $cotizacion->cliente=$request->cliente;
-            $cotizacion->detalle=$request->detalle;
-            $cotizacion->nit_cliente=$request->nit_cliente;
-            $cotizacion->id_cliente=$request->id_cliente;
-            $cotizacion->validez=$request->validez;
-            $cotizacion->identificador = ($ide->id)+1;
-            $cotizacion->num_coti = ($ide->num_coti)+1;
-            $cotizacion->id_bien=0;
-            $cotizacion->id_articulo=0;
-            $cotizacion->cantidad=0;
-            $cotizacion->p_venta=0;
-            $cotizacion->sub_total=0;
-            $cotizacion->total=$request->total;
-            $cotizacion->descuento=$request->descuento;
-            
-            $cotizacion->save();
-        }
-        else {
+        
             for($i=0;$i<count($request->id_bien);$i++)
             {
                 $co = Cotizacion::latest('id')->first();
@@ -89,7 +70,7 @@ class CotizacionController extends Controller
                 $cotizacion->fecha=$request->fecha;
                 $cotizacion->codigo_coti="COT-0".($ide->num_coti+1);
                 $cotizacion->cliente=$request->cliente;
-                $cotizacion->detalle=$request->detalle;
+                $cotizacion->detalle=$request->detalle[$i];
                 $cotizacion->nit_cliente=$request->nit_cliente;
                 $cotizacion->id_cliente=$request->id_cliente;
                 $cotizacion->validez=$request->validez;
@@ -106,7 +87,7 @@ class CotizacionController extends Controller
                 $cotizacion->save();
 
             }
-        }
+        
         
         $cotizacion = Cotizacion::latest('id')->first();
         $sql = Cotizacion::join("biens","cotizacions.id_bien","=","biens.id")
@@ -115,8 +96,11 @@ class CotizacionController extends Controller
         ->select("articulos.nombre as nombre_articulo","articulos.*","biens.nombre as nombre_bien","cotizacions.*",)
         ->orderBy('cotizacions.id','Asc')
         ->get();
+        $sql2 = Cotizacion::where('identificador', '=', $cotizacion->identificador) 
+        ->orderBy('id','Asc')
+        ->get();
         
-        $pdf = PDF::loadView('/Cotizaciones.ReporteCotizacion', compact('cotizacion','sql','request'));
+        $pdf = PDF::loadView('/Cotizaciones.ReporteCotizacion', compact('cotizacion','sql','sql2'));
        
         return $pdf->setPaper('a4')->stream('reporte.pdf');
     

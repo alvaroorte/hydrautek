@@ -18,7 +18,7 @@
         header {
             left: 0cm;
             right: 0cm;
-            height: 1.3cm;
+            height: 1.8cm;
             background-color: #475161;
             color: white;
             line-height: 30px;
@@ -40,15 +40,21 @@
     <header>
       <div class="card">
         <a href="{{url('creditodetallados/'.$credito->id.'/'.$credito->tipo)}}" class="config">
-          <img src="{{asset('assets/dashboard/images/Captura2.png')}}" alt="..." class="img-circle" width="100" height="54">
+          <img src="{{asset('assets/dashboard/images/HC2.png')}}" alt="..." class="img-circle" width="100" height="54">
         </a>
         <div class="car-body" style="text-align: center" >
           <span>Codigo: <b>{{$credito->codigo}}</b></span>
         </div>
+        <div class="car-body" style="text-align: right" >
+          <p style="line-height: 120%" >Correas y Manguera Hidraulicas <br>
+          Km. 3 1/2 Av. villazon #4259 Sacaba <br>
+          Telf: 79949061 - 4019942 <br>
+          www.hydrautekbolivia.com</p>
+      </div>
       </div>
     </header>
     <main><br>
-            <h4 style="text-align: center">HYDRAUTEK</h4>
+            <h4 style="text-align: center">HYDRAUCRUZ</h4>
             <br>
             <h5 style="text-align: center"> NOTA DE PAGO</h5><h6 style="text-align: center"> N° 0{{$pago->id}}</h6>
             <br>
@@ -128,7 +134,7 @@
         
     </main>
     <footer>
-        <p><strong>HYDRAUTEK</strong></p>
+        <p><strong>HYDRAUCRUZ</strong></p>
     </footer>
 </body>
 </html>

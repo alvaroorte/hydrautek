@@ -22,7 +22,7 @@
         header {
             left: 0cm;
             right: 0cm;
-            height: 1.3cm;
+            height: 1.8cm;
             background-color: #d33c3c;
             color: white;
             line-height: 35px;
@@ -44,10 +44,13 @@
     <header>
         <div class="card">
             <a href="{{url('mostrarcaja')}}" class="config">
-              <img src="{{asset('assets/dashboard/images/Captura2.png')}}" alt="..." class="img-circle" width="100" height="54">
+              <img src="{{asset('assets/dashboard/images/HC2.png')}}" alt="..." class="img-circle" width="100" height="54">
             </a>
-            <div class="car-body" style="text-align: center" >
-              <span><b>HYDRAUTEK</b></span>
+            <div class="car-body" style="text-align: right" >
+                <p style="line-height: 120%" >Correas y Manguera Hidraulicas <br>
+                Km. 3 1/2 Av. villazon #4259 Sacaba <br>
+                Telf: 79949061 - 4019942 <br>
+                www.hydrautekbolivia.com</p>
             </div>
           </div>
     </header>
@@ -93,7 +96,7 @@
         <br>       
     </main>
     <footer>
-        <p><strong>HYDRAUTEK</strong></p>
+        <p><strong>HYDRAUCRUZ</strong></p>
     </footer>
 </body>
 </html>

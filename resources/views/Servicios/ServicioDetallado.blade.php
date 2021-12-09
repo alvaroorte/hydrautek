@@ -93,37 +93,26 @@
                               </tr>
                               </tbody>
                         </table>
+                        
                         <table id="" class="table table-bordered table-hover table-striped table-sm">
                             <thead style="background:#dfba14;color:#0c1011;text-align:center">
                                 <tr>
-                                    <th width=10%>N°</th>
-                                    <th>ARTICULOS UTILIZADOS</th>
-                                    <th width=10%>CANTIDAD</th>
+                                    <th>SERVICIO</th> 
+                                    <th width=12%>CANTIDAD</th>
+                                    <th width=12%>P. VENTA</th>
+                                    <th width=12%>SUB TOTAL</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 @php $i = 1;  @endphp
-                                @foreach($sql as $salidas)
-                                <tr class="gradeC">
-                                    <td style="text-align: center;"><?php echo $i++; ?></td>
-                                    <td style="text-align: center;">{{$salidas->nombre_bien}}, {{$salidas->nombre_articulo}} ({{$salidas->marca}})</td>
-                                    <td style="text-align: center;">{{$salidas->cantidad}}</td>
-                                </tr>
+                                @foreach ($salidas as $salida)
+                                    <tr>
+                                        <td style="text-align: center;">{{$salida->detalle}}</td>
+                                        <td style="text-align: center;">{{$salida->cantidad}}</td>
+                                        <td style="text-align: center;">{{$salida->p_venta}}</td>
+                                        <td style="text-align: center;">{{$salida->sub_total}}</td>
+                                    </tr>
                                 @endforeach
-                        </table>
-                        <table id="" class="table table-bordered table-hover table-striped table-sm">
-                            <thead style="background:#dfba14;color:#0c1011;text-align:center">
-                                <tr>
-                                    <th>SERVICIO</th>
-                                    <th width=10%>TOTAL(Bs.)</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @php $i = 1;  @endphp
-                                <tr>
-                                    <td style="text-align: center; font-size: 14pt;" >{{$salida->detalle}}</td>
-                                    <td style="text-align: center;"> <h5> {{$salida->total}} </h5></td>
-                                </tr>
                             </tbody>
                         </table>
                         <div class="modal-content panel-primary">

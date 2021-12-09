@@ -6,7 +6,7 @@
         @if ($cs)
             <h4>INVENTARIO DE ARTICULOS COMPLETO CON SALDOS </h4> 
         @else
-            <h4>INVENTARIO DE ARTICULOS COMPLETO </h4>
+            <h4>INVENTARIO DE ARTICULOS COMPLETOo </h4>
         @endif
     </div>
     <div class="col-lg-6">
