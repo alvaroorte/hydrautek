@@ -124,8 +124,14 @@
                     <input type="text" name="codigo_empre" id="codigo_empre" onchange="codigo_empresa(this);" class='form-control'>
                 </div>
                 <div class="col-lg-3 ">
-                    <strong>CODIGO DE FABRICA</strong>
-                    <input type="text" name="codigo_fabric" id="codigo_fabric" onchange="codigo_fabrica(this);" class='form-control'>
+                    <strong>DESCRIPCION</strong>
+                    <input type="text" name="descripcion" id="descripcion" onchange="buscar_articulos(this);" class='form-control'>
+                </div>
+                <div class="col-lg-3">
+                    <strong>ARTICULOS</strong>
+                    <select name="articulos_encontrados" id="articulos_encontrados" onchange="articulo_seleccionado(this);" class="form-control" required>
+                        <option value="">Seleccionar...</option>     
+                    </select>
                 </div>
             </div>
             <div class="modal-body">
@@ -158,7 +164,7 @@
             <div class="modal-body">  
                 <div class="col-lg-2 ">
                     <strong>P. UNITARIO</strong>
-                    <input type="number" name="p_unitario" id="p_unitario" onkeyup="p_unitario(this);" class='form-control' required>
+                    <input type="number" name="p_unitario" id="p_unitario" value="" onkeyup="p_unitario(this);" class='form-control' required>
                 </div>
                 <div class="col-lg-2 " id="div_costo">
                     <strong>COSTO</strong>
@@ -166,7 +172,7 @@
                 </div>
                 <div class="col-lg-2">
                     <strong>CANTIDAD </strong> <strong style="color: red;">*</strong>
-                    <input type="number" name="cantidad" id="cantidad" onkeyup="cantidad(this);" class='form-control' required>
+                    <input type="number" name="cantidad" id="cantidad" value="" onkeyup="cantidad(this);" class='form-control' required>
                 </div>
                 
                 <div class="col-lg-2">
@@ -175,7 +181,7 @@
                 </div>
                 <div class="col-lg-2">
                     <strong>P. de VENTA</strong>
-                    <input type="number" name="p_venta" id="p_venta"  class='form-control' required>
+                    <input type="number" name="p_venta" id="p_venta" value="" class='form-control' required>
                 </div>
 
                 
@@ -612,9 +618,8 @@ $(document).ready( function () {
         });
     }
 
-    function codigo_fabrica(codigo) {
+    function buscar_articulos(codigo) {
         codigo = codigo.value;
-        console.log(codigo);
         t = codigo.length;
         inicio = 0,p=0,p2=0;
         for (i = 0; i < t; i++) {
@@ -625,32 +630,40 @@ $(document).ready( function () {
                 break;
             }
         }
+        $('#articulos_encontrados').empty();
         if (inicio > 0) {
-            url = '{{ asset("/index.php/encontrararticulocodigofabricas")}}/'+p+'/'+p2;
+            url = '{{ asset("/index.php/encontrararticulonombres")}}/'+p+'/'+p2;
         }
         else {
-            url = '{{ asset("/index.php/encontrararticulocodigofabrica")}}/' + codigo;
+            url = '{{ asset("/index.php/encontrararticulonombre")}}/' + codigo;
         }
+        console.log(codigo);
+        $.getJSON(url, null, function(data) {
+            if (data.length > 0) 
+            {
+                $('#articulos_encontrados').append('<option value="">Seleccionar...</option>');
+                $.each(data, function(field, e) 
+                {    
+                    $('#articulos_encontrados').append('<option value="'+e.id+'">'+e.nombre+"  ("+e.marca+')</option>');
+                });
+            }
+        });
+    }
+
+    function articulo_seleccionado(id) {
+        id = id.value;
+        url = '{{ asset("/index.php/encontrararticulo")}}/' + id;
         $.getJSON(url, null, function(data) {
             if (data.length > 0) 
             {
                 $.each(data, function(field, e) 
                 {
-                    url = '{{ asset("/index.php/editarbien")}}/' + e.id_bien;
-                    $.getJSON(url, null, function(data) {
-                        if (data.length > 0) 
-                        {
-                            $.each(data, function(field, f) 
-                            {
-                                $('#id_bien').val(e.id_bien);
-                                $('#marca').empty();
-                                $('#marca').append('<option value="'+e.marca+'">'+e.marca+'</option>');
-                                $("#p_venta").val(e.p_venta);
-                                $('#id_articulo').empty();
-                                $('#id_articulo').append('<option value="'+e.id+'">'+e.nombre+'</option>');
-                            });
-                        }
-                    });
+                    $('#id_bien').val(e.id_bien);
+                    $('#id_articulo').empty();
+                    $('#marca').empty();
+                    $('#id_articulo').append('<option value="'+e.id+'">'+e.nombre+"  ("+e.marca+')</option>');
+                    $('#p_venta').val(e.p_venta);
+                    $('#marca').append('<option value="'+e.id+'">'+e.marca+'</option>');
                 });
             }
         });
@@ -736,6 +749,31 @@ $(document).ready( function () {
         var p_unitario = $('#p_unitario').val();
         var p_total = $('#p_total').val();
         var p_venta = $('#p_venta').val();
+        if(bien == "") {
+            alert("POR FAVOR SELECCIONE UN GRUPO");
+            return;
+        } else {
+            if (articulo == "") {
+                alert("POR FAVOR SELECCIONE UN ARTICULO");
+                return;
+            } else {
+                if (cantidad == "" || cantidad == 0 ) {
+                    alert("POR FAVOR INTRODUZCA LA CANTIDAD");
+                    return;
+                } else {
+                    if(p_unitario == "") {
+                        alert("POR FAVOR INTRODUZCA EL PRECIO UNITARIO");
+                        return;
+                    }
+                    else {
+                        if(p_venta == "") {
+                            alert("POR FAVOR INTRODUZCA EL PRECIO DE VENTA");
+                            return;
+                        }
+                    }
+                }
+            }
+        }
 
 
         var biens = $('#id_bien option:selected').text();
@@ -770,7 +808,7 @@ $(document).ready( function () {
         $('#marca').val("");
         $('#cantidad').val("");
         $('#codigo_empre').val("");
-        $('#codigo_fabric').val("");
+        $('#descripcion').val("");
         $('#p_unitario').val("");
         $('#p_total').val("");
         $('#costo').val("");

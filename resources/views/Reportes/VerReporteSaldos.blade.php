@@ -23,8 +23,6 @@
             left: 0cm;
             right: 0cm;
             height: 1.8cm;
-            background-color: #d33c3c;
-            color: white;
             line-height: 35px;
         }
         footer {
@@ -33,10 +31,7 @@
             left: 0cm;
             right: 0cm;
             height: 1.3cm;
-            background-color: #d33c3c;
-            color: white;
             text-align: center;
-            line-height: 35px;
         }
     </style>
 </head>
@@ -52,15 +47,14 @@
                 Telf: 79949061 - 4019942 <br>
                 www.hydrautekbolivia.com</p>
             </div>
-          </div>
+        </div>
     </header>
     <main><br>
-            <h4 style="text-align: center">HYDRAUCRUZ</h4>
-            <h5 style="text-align: center"> Arqueo de Caja</h5>
+            <h5 style="text-align: center"> Arqueo General</h5>
             <br>
         
         <table class="table table-bordered table-hover table-striped table-sm">
-            <thead style="background:#d33c3c;color:#ffffff;text-align:center">
+            <thead style="text-align:center">
                 <tr style="background:#ffffff;color:#1b1919;text-align:center">
                     <th colspan="2">Del {{\Carbon\Carbon::parse($fi)->format('d-m-Y')}} al {{\Carbon\Carbon::parse($ff)->format('d-m-Y')}} </th>
                 </tr>
@@ -87,7 +81,7 @@
         </table>
         <br><br><br>
         <table class="table table-bordered table-hover table-striped table-sm">
-            <thead style="background:#945e5e;color:#ffffff;text-align:center">
+            <thead style="text-align:center">
                 <tr>
                     <th width="70%"><b> Saldo a favor de Hydraucruz desde {{\Carbon\Carbon::parse($fii->fecha)->format('d-m-Y')}} hasta {{\Carbon\Carbon::parse($ff)->format('d-m-Y')}}</b></th>
                     <th style="text-align: right">{{number_format($tb+$efectivo,2)}}</th>
@@ -95,7 +89,7 @@
             </thead>
           </table><br>
         <table class="table table-bordered table-hover table-striped table-sm">
-            <thead style="background:#d33c3c;color:#ffffff;text-align:center">
+            <thead style="text-align:center">
                 <tr>
                     <th width="15%"></th>
                     <th width="60%" >DESCRIPCION</th>
@@ -123,7 +117,7 @@
             </tbody>
           </table><br><br>
           <table class="table table-bordered table-hover table-striped table-sm">
-            <thead style="background:#d33c3c;color:#ffffff;text-align:center">
+            <thead style="text-align:center">
                 <tr>
                     <th width="15%"></th>
                     <th width="60%" >DESCRIPCION</th>

@@ -18,8 +18,6 @@
             left: 0cm;
             right: 0cm;
             height: 1.8cm;
-            background-color: #d33c3c;
-            color: white;
             line-height: 35px;
         }
         footer {
@@ -28,10 +26,7 @@
             left: 0cm;
             right: 0cm;
             height: 1.3cm;
-            background-color: #d33c3c;
-            color: white;
             text-align: center;
-            line-height: 35px;
         }
     </style>
 </head>
@@ -47,17 +42,15 @@
                 Telf: 79949061 - 4019942 <br>
                 www.hydrautekbolivia.com</p>
             </div>
-          </div>
+        </div>
     </header>
     <main><br>
             <h4 style="text-align: center">Control de Banco</h4>
             <h4 style="text-align: center">{{$ba->nombre_banco}}</h4>
-            <br>
             <h5 style="text-align: center"> (Expresado en Bolivianos)</h5>
-            <br>
         
         <table class="table table-bordered table-hover table-striped table-sm">
-            <thead style="background:#d33c3c;color:#ffffff;text-align:center">
+            <thead style="text-align:center">
                 <tr>
                     <th>FECHA</th>
                     <th>CODIGO</th>

@@ -18,8 +18,6 @@
             left: 0cm;
             right: 0cm;
             height: 1.8cm;
-            background-color: #475161;
-            color: white;
             line-height: 30px;
         }
         footer {
@@ -28,10 +26,7 @@
             left: 0cm;
             right: 0cm;
             height: 1.3cm;
-            background-color: #475161;
-            color: white;
             text-align: center;
-            line-height: 35px;
         }
     </style>
 </head>
@@ -54,50 +49,26 @@
         </div>
     </header>
     <main><br>
-            <h4 style="text-align: center">HYDRAUCRUZ</h4>
-            <br>
-            <table class="table table-striped text-center">
-            <tr>
-                <th width="53%">Modalidad </th>
-                @if ($cotizacion->detalle == null)
-                <th>Cotizacion de Productos</th>
-                @else
-                <th>Cotizacion de Servicios</th>  
-                @endif
-                
-            </tr>
-            <tr>
-                <th>Fecha</th>
-                <td style="text-align: left"> {{date('d-m-Y')}} </td>
-            </tr>
-            <tr>
-                <th>Cotizacion Valida por</th>
-                <td style="text-align: left"> {{$cotizacion->validez}} Dias </td>
-            </tr>
-             
+            <h5 style="text-align: center">COTIZACION</h5>
+            <table class="table table-striped text-center" style="font-size: 7pt">
+                <tr>
+                    <th>Cliente</th>
+                    <td style="text-align: left"> {{$cotizacion->cliente}} ({{$cotizacion->nit_cliente}})</td>
+                </tr>
+                <tr>
+                    <th>Fecha</th>
+                    <td style="text-align: left"> {{date('d-m-Y')}} </td>
+                </tr>
+                <tr>
+                    <th>Cotizacion Valida por</th>
+                    <td style="text-align: left"> {{$cotizacion->validez}} Dias </td>
+                </tr>
             </table>
-        <br>
-        
         <h4 style="text-align: center">Detalle</h4>
-        <table class="table table-bordered table-hover table-striped table-sm">
-            <thead style="background:#343a40;color:#D0D3D4;text-align:center">
-                <tr class="col-auto bg-secondary">
-                    <th width=12%>Señor(es)</th>
-                    <th width=10%>NIT/CI</th>
-                    
-                </tr>
-            </thead>
-            <tbody>
-                <tr class="gradeC">
-                <td style="text-align: center; font-size: 10pt;">{{$cotizacion->cliente}} </td>
-                <td style="text-align: center; font-size: 10pt;">{{$cotizacion->nit_cliente}} </td>
-                </tr>
-            </tbody>
-        </table>
         @if ($cotizacion->detalle == null)
         <table class="table table-bordered table-hover table-striped table-sm">
-            <thead style="background:#343a40;color:#D0D3D4;text-align:center">
-                <tr class="col-auto bg-secondary">
+            <thead style="text-align:center">
+                <tr>
                     <th >ARTICULO</th>
                     <th width=12%>MARCA</th>
                     <th width=8%>CANTIDAD</th>
@@ -135,8 +106,8 @@
         </table>
         @else
             <table class="table table-bordered table-hover table-striped table-sm">
-                <thead style="background:#343a40;color:#D0D3D4;text-align:center">
-                    <tr class="col-auto bg-secondary">
+                <thead style="text-align:center">
+                    <tr>
                         <th>SERVICIO</th>
                         <th width=12%>CANTIDAD</th>
                         <th width=12%>P. VENTA</th>
@@ -153,7 +124,7 @@
                         </tr>
                     @endforeach
                    
-                    <tr><td colspan="4"><button class='btn btn-light dim'></button> </td></tr>
+                    <tr><td colspan="4"></td></tr>
                     <tr>
                         <th style="text-align: right" colspan="3" >TOTAL Bs:</th>
                         <th style="text-align: right">{{number_format($cotizacion->total,2)}} </th>

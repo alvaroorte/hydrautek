@@ -160,6 +160,19 @@ class ArticuloController extends Controller
         return $articulo;
     }
 
+    public function EncontrarArticuloNombre($nombre)
+    {
+        $articulo=articulo::where('nombre','LIKE',"%".$nombre."%")->get();
+        return $articulo;
+    }
+
+    public function EncontrarArticuloNombre2($nombre,$nombre2)
+    {
+        $nombre = $nombre.'/'.$nombre2;
+        $articulo=articulo::where('nombre','LIKE',"%".$nombre."%")->get();
+        return $articulo;
+    }
+
 
     public function KardexArticuloProducto($id)
     {

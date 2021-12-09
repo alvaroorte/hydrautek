@@ -187,6 +187,8 @@ Route::get('/encontrararticulocodigoempresa/{id}','ArticuloController@EncontrarA
 Route::get('/encontrararticulocodigoempresas/{id}/{id2}','ArticuloController@EncontrarArticuloEmpresa2');
 Route::get('/encontrararticulocodigofabrica/{id}','ArticuloController@EncontrarArticuloFabrica');
 Route::get('/encontrararticulocodigofabricas/{id}/{id2}','ArticuloController@EncontrarArticuloFabrica2');
+Route::get('/encontrararticulonombre/{id}','ArticuloController@EncontrarArticuloNombre');
+Route::get('/encontrararticulonombres/{id}/{id2}','ArticuloController@EncontrarArticuloNombre2');
 Route::get('/mostrararticulos/{id}','ArticuloController@ListaArticulo');
 Route::post('/creararticulo','ArticuloController@crearArticulo');
 Route::get('/editararticulo/{id}','ArticuloController@editarArticulo');

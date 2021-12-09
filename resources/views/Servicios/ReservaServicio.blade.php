@@ -46,17 +46,17 @@ use App\Models\Cliente;
             <input type="hidden" name="id_articulo" id="id_articulo" value="0" class='form-control' required>
             <div class="col-lg-10">
                 <strong>SERVICIO </strong> <strong style="color: red;">*</strong>
-                <input type="text" name="detalle" id="detalle" onkeyup="mayus(this);" class='form-control' required>
+                <input type="text" name="detalle" id="detalle" value="" onkeyup="mayus(this);" class='form-control' required>
             </div>
         </div>
         <div class="modal-body"> 
             <div class="col-lg-2 ">
                 <strong>P. VENTA </strong> <strong style="color: red;">*</strong>
-                <input type="number" name="p_venta" id="p_venta" step="0.01" onkeyup="p_ventas(this);" class='form-control' required>
+                <input type="number" name="p_venta" id="p_venta" step="0.01" value="" onkeyup="p_ventas(this);" class='form-control' required>
             </div>
             <div class="col-lg-2">
                 <strong>CANTIDAD </strong> <strong style="color: red;">*</strong>
-                <input type="number" name="cantidad" id="cantidad" onkeyup="cantidad(this);" class='form-control' required>
+                <input type="number" name="cantidad" id="cantidad" value="" onkeyup="cantidad(this);" class='form-control' required>
             </div>
             <div class="col-lg-2">
                 <strong>SUB TOTAL </strong> <strong style="color: red;">*</strong>
@@ -117,17 +117,18 @@ use App\Models\Cliente;
                 </tbody>
             </table>
             <div class="row" >
-                <div class="col-lg-4"></div>
+                <div class="col-lg-2"></div>
                 <div class="col-lg-2"> 
                     <strong>Total(Bs.)</strong>
-                    <input type="number" name="total" id="total"  step="0.01" class='form-control' style="text-align: center" required readonly>
+                    <input type="number" name="total" id="total" value="" step="0.01" class='form-control' style="text-align: center" required readonly>
                 </div>
-            </div>
-            <div class="row">
-                <div class="col-lg-4"></div>
                 <div class="col-lg-2">
                     <strong>Descuento(Bs.) </strong>
-                    <input type="number" name="descuento" id="descuento" step="0.01" value="0" class='form-control' style="text-align: center" required>
+                    <input type="number" name="descuento" id="descuento" step="0.01" value="0" onkeyup="total_descuento(this);" style="text-align: center" class='form-control' required>
+                </div>
+                <div class="col-lg-2"> 
+                    <strong>TOTAL GENERAL(Bs.)</strong>
+                    <input type="number" name="totalg" id="totalg" value="" step="0.01" class='form-control' style="text-align: center" required readonly>
                 </div>
             </div>
             <div class="modal-dialog modal-lg">
@@ -211,6 +212,11 @@ $('.crearreservaservi').submit(function(e){
             });
     }
 
+    function total_descuento(codigo)
+    {
+        id = $("#descuento").val()*1;
+        $("#totalg").val($("#total").val()-id);
+    }
 
     function cantidad(id) {
         id = id.value*1;
@@ -258,6 +264,7 @@ $('.crearreservaservi').submit(function(e){
     function eliminarSeleccion(id){
         to -= lista[id].sub_total;
         $('#total').val(to);
+        $('#totalg').val(to-$('#descuento').val());
         lista.splice(id, 1);
         $('#cuerpo').html("");
         if(lista.length <= 0)
@@ -267,6 +274,7 @@ $('.crearreservaservi').submit(function(e){
     function insertar(){
         to += $('#sub_total').val()*1;
         $('#total').val(to);
+        $('#totalg').val(to-$('#descuento').val());
 
         var id_bien = $('#id_bien').val();
         var id_articulo = $('#id_articulo').val();
@@ -276,7 +284,20 @@ $('.crearreservaservi').submit(function(e){
         var p_venta = $('#p_venta').val();
         var biens = $('#id_bien option:selected').text();
         var articulos = $('#id_articulo option:selected').text();
-    
+        if(detalle == "") {
+            alert("POR FAVOR DETALLE EL SERVICIO");
+            return;
+        } else {
+            if (p_venta == "") {
+                alert("POR FAVOR INTRODUZCA EL PRECIO DE VENTA");
+                return;
+            } else {
+                if (cantidad == "" || cantidad == 0 ) {
+                    alert("POR FAVOR INTRODUZCA LA CANTIDAD");
+                    return;
+                } 
+            }
+        }
         
         var ingreso = {
             id_bien: id_bien,

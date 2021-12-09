@@ -243,7 +243,7 @@ class SalidaController extends Controller
             $pdf = PDF::loadView('/Salidas.ReporteSalida', compact('salida','sql','cliente'));
         }
         
-        return $pdf->setPaper('a4')->stream('ReporteVenta.pdf');
+        return $pdf->setPaper('carta')->stream('ReporteVenta.pdf');
         
     }
 

@@ -20,8 +20,6 @@
             left: 0cm;
             right: 0cm;
             height: 1.8cm;
-            background-color: #475161;
-            color: white;
             line-height: 30px;
         }
         footer {
@@ -30,10 +28,7 @@
             left: 0cm;
             right: 0cm;
             height: 1.3cm;
-            background-color: #475161;
-            color: white;
             text-align: center;
-            line-height: 35px;
         }
     </style>
 </head>
@@ -55,14 +50,12 @@
       </div>
     </header>
     <main><br>
-            <h4 style="text-align: center">HYDRAUCRUZ</h4>
+            <h4 style="text-align: center"> NOTA DE REMISION</h4>
             <br>
-            <h5 style="text-align: center"> NOTA DE REMISION</h5>
-            <br>
-            <table class="table table-striped text-center">
+            <table class="table table-striped text-center" style="font-size: 7pt">
             <tr>
                 <th width="53%">Modalidad de Pago</th>
-                <th>@if ($salida->sccredito == 1)
+                <td>@if ($salida->sccredito == 1)
                         Credito
                     @else
                       @if ($salida->sccredito == 0)
@@ -70,39 +63,23 @@
                       @else
                           Banco
                       @endif
-                    @endif </th>
+                    @endif </td>
             </tr>
             <tr>
               <th>Fecha de Venta </th>
               <td style="text-align: left"> {{$salida->fecha}} </td>
             </tr>
-             
+            <tr>
+              <th>Cliente </th>
+              <td style="text-align: left"> {{$salida->cliente}} ({{$salida->cliente}}) </td>
+            </tr>
             </table>
-        <br>
-        
         <h4 style="text-align: center">Detalle</h4>
-        <table class="table table-bordered table-hover table-striped table-sm">
-          <thead style="background:#343a40;color:#D0D3D4;text-align:center">
-            <tr class="col-auto bg-secondary">
-                <th width=12%>Señor(es)</th>
-                <th width=10%>NIT/CI</th>
-                
-            </tr>
-          </thead>
-          <tbody>
-            <tr class="gradeC">
-                <td style="text-align: center; font-size: 10pt;">{{$salida->cliente}}</td>
-                <td style="text-align: center; font-size: 10pt;">{{$salida->nit_cliente}}</td>
-              
-            </tr>
-            </tbody>
-          </table>
           <table class="table table-bordered table-hover table-striped table-sm">
-            <thead style="background:#343a40;color:#D0D3D4;text-align:center">
-              <tr class="col-auto bg-secondary">
-                  <th width=10%>CODIGO</th> 
+            <thead style="text-align:center">
+              <tr>
+                  <th width=12%>CODIGO</th> 
                   <th >ARTICULO</th>
-                  <th width=12%>MARCA</th>
                   <th width=8%>CANTIDAD</th>
                   <th width=8%>UNIDAD</th>
                   <th width=10%>P. UNITARIO (Bs)</th>
@@ -114,9 +91,8 @@
               <?php $i = 0; ?>
               @foreach($sql as $salidas)
               <tr class="gradeC">
-                <td>{{$salidas->codigo_empresa}}</td>
+                <td style="font-size: 7pt" >{{$salidas->codigo_empresa}}</td>
                 <td>{{$salidas->nombre_articulo}}</td>
-                <td>{{$salidas->marca}}</td>
                 <td>{{$salidas->cantidad}}</td>
                 <td>{{$salidas->unidad}}(s)</td>
                 <td>{{$salidas->p_venta}}</td>
@@ -124,17 +100,17 @@
                 <?php $i = $i+$salidas->sub_total ?>
               </tr>
               @endforeach
-              <tr><td colspan="7" ><button class='btn btn-light dim'></button> </td></tr>
+              <tr><td colspan="6" ></td></tr>
               <tr>
-                <th style="text-align: right" colspan="6" >TOTAL (Bs):</th>
+                <th style="text-align: right" colspan="5" >TOTAL (Bs):</th>
                 <th st>{{$salida->total}} </th>
               </tr>
               <tr>
-                <th style="text-align: right" colspan="6" >Descuento (Bs):</th>
+                <th style="text-align: right" colspan="5" >Descuento (Bs):</th>
                 <th st>{{$salida->descuento}} </th>
               </tr>
               <tr>
-                <th style="text-align: right" colspan="6" >TOTAL NETO (Bs):</th>
+                <th style="text-align: right" colspan="5" >TOTAL NETO (Bs):</th>
                 <th st>{{$salida->total-$salida->descuento}}</th>
               </tr>
             </tbody>

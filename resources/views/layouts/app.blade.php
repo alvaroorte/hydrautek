@@ -313,6 +313,7 @@
     <script src="{{asset('js/app.js')}}"></script>
     <!-- jQuery -->
     <script src="{{asset('assets/dashboard/vendors/jquery/dist/jquery.min.js')}}"></script>
+    <script src="{{asset('assets/dashboard/vendors/jquery-validation/dist/jquery.validate.min.js')}}"></script>
     <!-- Bootstrap -->
     <script src="{{asset('assets/dashboard/vendors/bootstrap/dist/js/bootstrap.bundle.min.js')}}"></script>
     <!-- bootstrap-progressbar -->

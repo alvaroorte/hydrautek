@@ -441,7 +441,7 @@
     function insertarTabla(item/*objeto*/, index/*posicion*/) {
         
       var html =  "<tr>"+
-        "<td><input type='hidden' name='detalle[]' id='detalle'>"+
+        "<input type='hidden' name='detalle[]' id='detalle'>"+
         "<td><input type='hidden' name='id_bien[]' id='id_bien' class='form-control' value='"+item.id_bien+"'>"+item.bien+"</td>"+
         "<td><input type='hidden' name='id_articulo[]' id='id_articulo' class='form-control' value='"+item.id_articulo+"'>"+item.articulo+' ('+item.marca+")</td>" +                  
         "<td><input type='hidden' name='cantidad[]' id='cantidad' class='form-control' value='"+item.cantidad+"'>"+item.cantidad+"</td>" +

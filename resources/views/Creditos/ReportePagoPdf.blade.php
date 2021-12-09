@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 
 <html lang="en">
@@ -19,8 +18,6 @@
             left: 0cm;
             right: 0cm;
             height: 1.8cm;
-            background-color: #475161;
-            color: white;
             line-height: 30px;
         }
         footer {
@@ -29,10 +26,7 @@
             left: 0cm;
             right: 0cm;
             height: 1.3cm;
-            background-color: #475161;
-            color: white;
             text-align: center;
-            line-height: 35px;
         }
     </style>
 </head>
@@ -54,11 +48,9 @@
       </div>
     </header>
     <main><br>
-            <h4 style="text-align: center">HYDRAUCRUZ</h4>
-            <br>
             <h5 style="text-align: center"> NOTA DE PAGO</h5><h6 style="text-align: center"> N° 0{{$pago->id}}</h6>
-            <br>
-            <table class="table table-striped text-center">
+            
+            <table class="table table-striped text-center" style="font-size: 7pt" >
             <tr>
                 <th width="53%">Modalidad de Pago</th>
                 @if ($pago->id_banco != null)
@@ -72,29 +64,16 @@
               <th>Fecha de Pago </th>
               <td style="text-align: left"> {{$pago->fecha}} </td>
             </tr>
-             
-            </table>
-        <br>
+            <tr>
+              <th>Cliente </th>
+              <td style="text-align: left">{{$cliente->nombre}} ({{$cliente->ci}}) </td>
+            </tr>
+          </table>
         
         <h4 style="text-align: center">Detalle</h4>
-        <table class="table table-bordered table-hover table-striped table-sm">
-          <thead style="background:#343a40;color:#D0D3D4;text-align:center">
-            <tr class="col-auto bg-secondary">
-                <th width=12%>Señor(es)</th>
-                <th width=10%>NIT/CI</th>
-                
-            </tr>
-          </thead>
-          <tbody>
-            <tr class="gradeC">
-                <td style="text-align: center; font-size: 10pt;">{{$cliente->nombre}}</td>
-                <td style="text-align: center; font-size: 10pt;">{{$cliente->ci}}</td>
-            </tr>
-            </tbody>
-          </table>
           <table class="table table-bordered table-hover table-striped table-sm">
-            <thead style="background:#343a40;color:#D0D3D4;text-align:center">
-              <tr class="col-auto bg-secondary">
+            <thead style="text-align:center">
+              <tr>
                   <th >PAGANTE</th> 
                   <th >NIT/CI</th>
                   <th >MONTO (Bs.)</th>
